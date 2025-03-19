@@ -673,8 +673,8 @@ static const yytype_int8 yyrline[] =
        0,    30,    30,    33,    37,    38,    40,    41,    43,    45,
       46,    48,    51,    53,    54,    57,    58,    59,    60,    61,
       62,    63,    68,    70,    72,    74,    76,    78,    79,    82,
-      84,    85,    86,    87,    88,    89,    90,    91,    92,    93,
-      94,    95,    96,    97,   103,   107,   110
+      84,    85,    86,    87,    89,    90,    91,    92,    93,    94,
+      95,    96,    97,    98,   104,   108,   111
 };
 #endif
 
@@ -1516,61 +1516,61 @@ yyreduce:
     break;
 
   case 34: /* expr: expr LT expr  */
-#line 88 "Optimizer.y"
+#line 89 "Optimizer.y"
                  {}
 #line 1522 "y.tab.c"
     break;
 
   case 35: /* expr: expr LTE expr  */
-#line 89 "Optimizer.y"
+#line 90 "Optimizer.y"
                   {}
 #line 1528 "y.tab.c"
     break;
 
   case 36: /* expr: expr GT expr  */
-#line 90 "Optimizer.y"
+#line 91 "Optimizer.y"
                  {}
 #line 1534 "y.tab.c"
     break;
 
   case 37: /* expr: expr GTE expr  */
-#line 91 "Optimizer.y"
+#line 92 "Optimizer.y"
                   {}
 #line 1540 "y.tab.c"
     break;
 
   case 38: /* expr: expr EQUALS expr  */
-#line 92 "Optimizer.y"
+#line 93 "Optimizer.y"
                      {}
 #line 1546 "y.tab.c"
     break;
 
   case 39: /* expr: expr NOTEQUALS expr  */
-#line 93 "Optimizer.y"
+#line 94 "Optimizer.y"
                         {}
 #line 1552 "y.tab.c"
     break;
 
   case 40: /* expr: expr AND expr  */
-#line 94 "Optimizer.y"
+#line 95 "Optimizer.y"
                   {}
 #line 1558 "y.tab.c"
     break;
 
   case 41: /* expr: expr OR expr  */
-#line 95 "Optimizer.y"
+#line 96 "Optimizer.y"
                  {}
 #line 1564 "y.tab.c"
     break;
 
   case 42: /* expr: '(' expr ')'  */
-#line 96 "Optimizer.y"
-                  {}
+#line 97 "Optimizer.y"
+                  {(yyval.ToAttr)=(yyvsp[-1].ToAttr);}
 #line 1570 "y.tab.c"
     break;
 
   case 43: /* expr: NUM  */
-#line 97 "Optimizer.y"
+#line 98 "Optimizer.y"
           {
         char* addr = malloc(10);
         sprintf(addr,"%d",(yyvsp[0].ToAttr)->val);
@@ -1581,7 +1581,7 @@ yyreduce:
     break;
 
   case 44: /* expr: STRING  */
-#line 103 "Optimizer.y"
+#line 104 "Optimizer.y"
            {
         (yyvsp[0].ToAttr)->Addr = strdup((yyvsp[0].ToAttr)->varname);
         (yyval.ToAttr)=(yyvsp[0].ToAttr);
@@ -1590,13 +1590,13 @@ yyreduce:
     break;
 
   case 45: /* expr: Identifier  */
-#line 107 "Optimizer.y"
+#line 108 "Optimizer.y"
                {(yyval.ToAttr)=(yyvsp[0].ToAttr);}
 #line 1596 "y.tab.c"
     break;
 
   case 46: /* Identifier: ID  */
-#line 110 "Optimizer.y"
+#line 111 "Optimizer.y"
                 {
     if((yyvsp[0].ToAttr)->Gentry==NULL){
       printf("Syntax Error: usage of undeclared Variable : %s\n",(yyvsp[0].ToAttr)->varname);
@@ -1802,7 +1802,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 119 "Optimizer.y"
+#line 120 "Optimizer.y"
 
 
 void yyerror(char const *s)

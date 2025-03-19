@@ -4,5 +4,6 @@ decl
 enddecl
 
 a = 3+5*b;
-c= a*b/3+43;
+c= a*b/(3+43);
+
 

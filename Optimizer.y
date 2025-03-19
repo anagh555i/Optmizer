@@ -12,6 +12,7 @@
 
 %union{
  struct TokenAttr* ToAttr;
+ int integer;
 }
 %type <ToAttr> expr  program  Slist Stmt InputStmt OutputStmt AsgStmt WhileStmt Ifstmt BreakStmt ContinueStmt  Declarations DeclList Decl Varlist Identifier
 %type <integer> Type
@@ -85,6 +86,7 @@ expr : expr PLUS expr  {char* addr = newTemp(); $$ = Expr_TAC_Generate($1,"+",$3
   | expr MINUS expr   {char* addr = newTemp(); $$ = Expr_TAC_Generate($1,"-",$3,addr,TAC_FILE);}
   | expr MUL expr {char* addr = newTemp(); $$ = Expr_TAC_Generate($1,"*",$3,addr,TAC_FILE);}
   | expr DIV expr {char* addr = newTemp(); $$ = Expr_TAC_Generate($1,"/",$3,addr,TAC_FILE);}
+  // TAC Will be done for Flow Statement Control
   | expr LT expr {}
   | expr LTE expr {}
   | expr GT expr {}
@@ -93,7 +95,7 @@ expr : expr PLUS expr  {char* addr = newTemp(); $$ = Expr_TAC_Generate($1,"+",$3
   | expr NOTEQUALS expr {}
   | expr AND expr {}
   | expr OR expr {}
-  | '(' expr ')'  {$$=$1;}
+  | '(' expr ')'  {$$=$2;}
   | NUM   {
         char* addr = malloc(10);
         sprintf(addr,"%d",$1->val);
