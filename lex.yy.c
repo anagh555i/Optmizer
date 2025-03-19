@@ -499,8 +499,8 @@ int yy_flex_debug = 0;
 #define YY_MORE_ADJ 0
 #define YY_RESTORE_YY_MORE_OFFSET
 char *yytext;
-#line 1 "Optimizer.l"
-#line 2 "Optimizer.l"
+#line 1 "parser.l"
+#line 2 "parser.l"
  #include <stdlib.h>
  #include <stdio.h>
  #include "y.tab.h"
@@ -726,7 +726,7 @@ YY_DECL
 		}
 
 	{
-#line 13 "Optimizer.l"
+#line 13 "parser.l"
 
 
 #line 733 "lex.yy.c"
@@ -788,172 +788,172 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 15 "Optimizer.l"
+#line 15 "parser.l"
 {number = atoi(yytext); yylval.ToAttr = MakeTokenAttr(number,NULL,INTEGER_TYPE,NULL); return NUM;}
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 16 "Optimizer.l"
+#line 16 "parser.l"
 {return PBEGIN;}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 17 "Optimizer.l"
+#line 17 "parser.l"
 {return END;}
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 18 "Optimizer.l"
+#line 18 "parser.l"
 {return READ;}
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 19 "Optimizer.l"
+#line 19 "parser.l"
 {return WRITE;}
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 20 "Optimizer.l"
+#line 20 "parser.l"
 {return IF;}
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 21 "Optimizer.l"
+#line 21 "parser.l"
 {return THEN;}
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 22 "Optimizer.l"
+#line 22 "parser.l"
 {return ELSE;}
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 23 "Optimizer.l"
+#line 23 "parser.l"
 {return ENDIF;}
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 24 "Optimizer.l"
+#line 24 "parser.l"
 {return WHILE;}
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 25 "Optimizer.l"
+#line 25 "parser.l"
 {return DO;}
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 26 "Optimizer.l"
+#line 26 "parser.l"
 {return ENDWHILE;}
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 27 "Optimizer.l"
+#line 27 "parser.l"
 {return BREAK;}
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 28 "Optimizer.l"
+#line 28 "parser.l"
 {return CONTINUE;}
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 29 "Optimizer.l"
+#line 29 "parser.l"
 {return DECL;}
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 30 "Optimizer.l"
+#line 30 "parser.l"
 {return ENDDECL;}
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 31 "Optimizer.l"
+#line 31 "parser.l"
 {return INT;}
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 32 "Optimizer.l"
+#line 32 "parser.l"
 {return STR;}
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 33 "Optimizer.l"
+#line 33 "parser.l"
 {return LT;}
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 34 "Optimizer.l"
+#line 34 "parser.l"
 {return GT;}
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 35 "Optimizer.l"
+#line 35 "parser.l"
 {return LTE;}
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 36 "Optimizer.l"
+#line 36 "parser.l"
 {return GTE;}
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 37 "Optimizer.l"
+#line 37 "parser.l"
 {return EQUALS;}
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 38 "Optimizer.l"
+#line 38 "parser.l"
 {return NOTEQUALS;}
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 39 "Optimizer.l"
+#line 39 "parser.l"
 {return AND;}
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 40 "Optimizer.l"
+#line 40 "parser.l"
 {return OR;}
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 41 "Optimizer.l"
+#line 41 "parser.l"
 {return PLUS;}
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 42 "Optimizer.l"
+#line 42 "parser.l"
 {return MINUS;}
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 43 "Optimizer.l"
+#line 43 "parser.l"
 {return MUL;}
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 44 "Optimizer.l"
+#line 44 "parser.l"
 {return DIV;}
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 45 "Optimizer.l"
+#line 45 "parser.l"
 {return *yytext;}
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 46 "Optimizer.l"
+#line 46 "parser.l"
 {return *yytext;}
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 47 "Optimizer.l"
+#line 47 "parser.l"
 {return *yytext;}
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 48 "Optimizer.l"
+#line 48 "parser.l"
 {
     //yytext holds string
     yylval.ToAttr = MakeTokenAttr(-1,yytext,STRING_TYPE,NULL);
@@ -962,7 +962,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 53 "Optimizer.l"
+#line 53 "parser.l"
 {
     variable = yytext;
     yylval.ToAttr = MakeTokenAttr(-1,variable,-1,NULL);
@@ -976,28 +976,28 @@ YY_RULE_SETUP
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 63 "Optimizer.l"
+#line 63 "parser.l"
 {}
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 64 "Optimizer.l"
+#line 64 "parser.l"
 {return *yytext;}
 	YY_BREAK
 case 38:
 /* rule 38 can match eol */
 YY_RULE_SETUP
-#line 65 "Optimizer.l"
+#line 65 "parser.l"
 {}
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 66 "Optimizer.l"
+#line 66 "parser.l"
 {printf("%s ",yytext); yyerror("Unknown character\n");exit(1);}
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 68 "Optimizer.l"
+#line 68 "parser.l"
 ECHO;
 	YY_BREAK
 #line 1004 "lex.yy.c"
@@ -2005,7 +2005,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 68 "Optimizer.l"
+#line 68 "parser.l"
 
 
 int yywrap(void) {

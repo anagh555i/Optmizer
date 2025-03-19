@@ -67,7 +67,7 @@
 
 
 /* First part of user prologue.  */
-#line 1 "Optimizer.y"
+#line 1 "parser.y"
 
  #include <stdlib.h>
  #include <stdio.h>
@@ -200,11 +200,12 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 13 "Optimizer.y"
+#line 13 "parser.y"
 
  struct TokenAttr* ToAttr;
+ int integer;
 
-#line 208 "y.tab.c"
+#line 209 "y.tab.c"
 
 };
 typedef union YYSTYPE YYSTYPE;
@@ -670,11 +671,11 @@ static const yytype_int8 yytranslate[] =
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int8 yyrline[] =
 {
-       0,    30,    30,    33,    37,    38,    40,    41,    43,    45,
-      46,    48,    51,    53,    54,    57,    58,    59,    60,    61,
-      62,    63,    68,    70,    72,    74,    76,    78,    79,    82,
-      84,    85,    86,    87,    89,    90,    91,    92,    93,    94,
-      95,    96,    97,    98,   104,   108,   111
+       0,    31,    31,    34,    38,    39,    41,    42,    44,    46,
+      47,    49,    52,    54,    55,    58,    59,    60,    61,    62,
+      63,    64,    69,    71,    73,    75,    77,    79,    80,    83,
+      85,    86,    87,    88,    90,    91,    92,    93,    94,    95,
+      96,    97,    98,    99,   105,   109,   112
 };
 #endif
 
@@ -1320,283 +1321,283 @@ yyreduce:
   switch (yyn)
     {
   case 2: /* program: Declarations Slist  */
-#line 30 "Optimizer.y"
+#line 31 "parser.y"
                              {
     printf("Program finished\nNo Syntax Error\n");
    }
-#line 1328 "y.tab.c"
+#line 1329 "y.tab.c"
     break;
 
   case 3: /* program: %empty  */
-#line 33 "Optimizer.y"
+#line 34 "parser.y"
     {printf("Write Code in input.expl bruh\n");exit(1);}
-#line 1334 "y.tab.c"
+#line 1335 "y.tab.c"
     break;
 
   case 4: /* Declarations: DECL DeclList ENDDECL  */
-#line 37 "Optimizer.y"
+#line 38 "parser.y"
                                       {print_GSymbolTable();}
-#line 1340 "y.tab.c"
+#line 1341 "y.tab.c"
     break;
 
   case 5: /* Declarations: DECL ENDDECL  */
-#line 38 "Optimizer.y"
+#line 39 "parser.y"
                {}
-#line 1346 "y.tab.c"
+#line 1347 "y.tab.c"
     break;
 
   case 6: /* DeclList: DeclList Decl  */
-#line 40 "Optimizer.y"
+#line 41 "parser.y"
                          {}
-#line 1352 "y.tab.c"
+#line 1353 "y.tab.c"
     break;
 
   case 7: /* DeclList: Decl  */
-#line 41 "Optimizer.y"
+#line 42 "parser.y"
        {}
-#line 1358 "y.tab.c"
+#line 1359 "y.tab.c"
     break;
 
   case 8: /* Decl: Type Varlist ';'  */
-#line 43 "Optimizer.y"
+#line 44 "parser.y"
                         {curr_declaration_type = 0;}
-#line 1364 "y.tab.c"
+#line 1365 "y.tab.c"
     break;
 
   case 9: /* Type: INT  */
-#line 45 "Optimizer.y"
+#line 46 "parser.y"
            {curr_declaration_type = INTEGER_TYPE;}
-#line 1370 "y.tab.c"
+#line 1371 "y.tab.c"
     break;
 
   case 10: /* Type: STR  */
-#line 46 "Optimizer.y"
+#line 47 "parser.y"
       {curr_declaration_type = STRING_TYPE;}
-#line 1376 "y.tab.c"
+#line 1377 "y.tab.c"
     break;
 
   case 11: /* Varlist: Varlist ',' ID  */
-#line 48 "Optimizer.y"
+#line 49 "parser.y"
                          {
   G_Install((yyvsp[0].ToAttr)->varname,curr_declaration_type,1); //Assuming both str and int have size = 1
 }
-#line 1384 "y.tab.c"
+#line 1385 "y.tab.c"
     break;
 
   case 12: /* Varlist: ID  */
-#line 51 "Optimizer.y"
+#line 52 "parser.y"
      {G_Install((yyvsp[0].ToAttr)->varname,curr_declaration_type,1);}
-#line 1390 "y.tab.c"
+#line 1391 "y.tab.c"
     break;
 
   case 13: /* Slist: Slist Stmt  */
-#line 53 "Optimizer.y"
+#line 54 "parser.y"
                    {}
-#line 1396 "y.tab.c"
+#line 1397 "y.tab.c"
     break;
 
   case 14: /* Slist: Stmt  */
-#line 54 "Optimizer.y"
+#line 55 "parser.y"
        {}
-#line 1402 "y.tab.c"
+#line 1403 "y.tab.c"
     break;
 
   case 15: /* Stmt: InputStmt  */
-#line 57 "Optimizer.y"
+#line 58 "parser.y"
                  {}
-#line 1408 "y.tab.c"
+#line 1409 "y.tab.c"
     break;
 
   case 16: /* Stmt: OutputStmt  */
-#line 58 "Optimizer.y"
+#line 59 "parser.y"
             {}
-#line 1414 "y.tab.c"
+#line 1415 "y.tab.c"
     break;
 
   case 17: /* Stmt: AsgStmt  */
-#line 59 "Optimizer.y"
+#line 60 "parser.y"
          {}
-#line 1420 "y.tab.c"
+#line 1421 "y.tab.c"
     break;
 
   case 18: /* Stmt: Ifstmt  */
-#line 60 "Optimizer.y"
+#line 61 "parser.y"
         {}
-#line 1426 "y.tab.c"
+#line 1427 "y.tab.c"
     break;
 
   case 19: /* Stmt: WhileStmt  */
-#line 61 "Optimizer.y"
+#line 62 "parser.y"
            {}
-#line 1432 "y.tab.c"
+#line 1433 "y.tab.c"
     break;
 
   case 20: /* Stmt: BreakStmt  */
-#line 62 "Optimizer.y"
+#line 63 "parser.y"
            {}
-#line 1438 "y.tab.c"
+#line 1439 "y.tab.c"
     break;
 
   case 21: /* Stmt: ContinueStmt  */
-#line 63 "Optimizer.y"
+#line 64 "parser.y"
               {}
-#line 1444 "y.tab.c"
+#line 1445 "y.tab.c"
     break;
 
   case 22: /* InputStmt: READ '(' Identifier ')' ';'  */
-#line 68 "Optimizer.y"
+#line 69 "parser.y"
                                         {}
-#line 1450 "y.tab.c"
+#line 1451 "y.tab.c"
     break;
 
   case 23: /* OutputStmt: WRITE '(' expr ')' ';'  */
-#line 70 "Optimizer.y"
+#line 71 "parser.y"
                                     {}
-#line 1456 "y.tab.c"
+#line 1457 "y.tab.c"
     break;
 
   case 24: /* AsgStmt: Identifier '=' expr ';'  */
-#line 72 "Optimizer.y"
+#line 73 "parser.y"
                                   {fprintf(TAC_FILE,"%s = %s\n",(yyvsp[-3].ToAttr)->Addr,(yyvsp[-1].ToAttr)->Addr);}
-#line 1462 "y.tab.c"
+#line 1463 "y.tab.c"
     break;
 
   case 25: /* BreakStmt: BREAK ';'  */
-#line 74 "Optimizer.y"
+#line 75 "parser.y"
                       {}
-#line 1468 "y.tab.c"
+#line 1469 "y.tab.c"
     break;
 
   case 26: /* ContinueStmt: CONTINUE ';'  */
-#line 76 "Optimizer.y"
+#line 77 "parser.y"
                             {}
-#line 1474 "y.tab.c"
+#line 1475 "y.tab.c"
     break;
 
   case 27: /* Ifstmt: IF '(' expr ')' THEN Slist ELSE Slist ENDIF ';'  */
-#line 78 "Optimizer.y"
+#line 79 "parser.y"
                                                          {}
-#line 1480 "y.tab.c"
+#line 1481 "y.tab.c"
     break;
 
   case 28: /* Ifstmt: IF '(' expr ')' THEN Slist ENDIF ';'  */
-#line 79 "Optimizer.y"
+#line 80 "parser.y"
                                        {}
-#line 1486 "y.tab.c"
+#line 1487 "y.tab.c"
     break;
 
   case 29: /* WhileStmt: WHILE '(' expr ')' DO Slist ENDWHILE ';'  */
-#line 82 "Optimizer.y"
+#line 83 "parser.y"
                                                      {}
-#line 1492 "y.tab.c"
+#line 1493 "y.tab.c"
     break;
 
   case 30: /* expr: expr PLUS expr  */
-#line 84 "Optimizer.y"
+#line 85 "parser.y"
                        {char* addr = newTemp(); (yyval.ToAttr) = Expr_TAC_Generate((yyvsp[-2].ToAttr),"+",(yyvsp[0].ToAttr),addr,TAC_FILE);}
-#line 1498 "y.tab.c"
+#line 1499 "y.tab.c"
     break;
 
   case 31: /* expr: expr MINUS expr  */
-#line 85 "Optimizer.y"
+#line 86 "parser.y"
                       {char* addr = newTemp(); (yyval.ToAttr) = Expr_TAC_Generate((yyvsp[-2].ToAttr),"-",(yyvsp[0].ToAttr),addr,TAC_FILE);}
-#line 1504 "y.tab.c"
+#line 1505 "y.tab.c"
     break;
 
   case 32: /* expr: expr MUL expr  */
-#line 86 "Optimizer.y"
+#line 87 "parser.y"
                   {char* addr = newTemp(); (yyval.ToAttr) = Expr_TAC_Generate((yyvsp[-2].ToAttr),"*",(yyvsp[0].ToAttr),addr,TAC_FILE);}
-#line 1510 "y.tab.c"
+#line 1511 "y.tab.c"
     break;
 
   case 33: /* expr: expr DIV expr  */
-#line 87 "Optimizer.y"
+#line 88 "parser.y"
                   {char* addr = newTemp(); (yyval.ToAttr) = Expr_TAC_Generate((yyvsp[-2].ToAttr),"/",(yyvsp[0].ToAttr),addr,TAC_FILE);}
-#line 1516 "y.tab.c"
+#line 1517 "y.tab.c"
     break;
 
   case 34: /* expr: expr LT expr  */
-#line 89 "Optimizer.y"
+#line 90 "parser.y"
                  {}
-#line 1522 "y.tab.c"
+#line 1523 "y.tab.c"
     break;
 
   case 35: /* expr: expr LTE expr  */
-#line 90 "Optimizer.y"
+#line 91 "parser.y"
                   {}
-#line 1528 "y.tab.c"
+#line 1529 "y.tab.c"
     break;
 
   case 36: /* expr: expr GT expr  */
-#line 91 "Optimizer.y"
+#line 92 "parser.y"
                  {}
-#line 1534 "y.tab.c"
+#line 1535 "y.tab.c"
     break;
 
   case 37: /* expr: expr GTE expr  */
-#line 92 "Optimizer.y"
+#line 93 "parser.y"
                   {}
-#line 1540 "y.tab.c"
+#line 1541 "y.tab.c"
     break;
 
   case 38: /* expr: expr EQUALS expr  */
-#line 93 "Optimizer.y"
+#line 94 "parser.y"
                      {}
-#line 1546 "y.tab.c"
+#line 1547 "y.tab.c"
     break;
 
   case 39: /* expr: expr NOTEQUALS expr  */
-#line 94 "Optimizer.y"
+#line 95 "parser.y"
                         {}
-#line 1552 "y.tab.c"
+#line 1553 "y.tab.c"
     break;
 
   case 40: /* expr: expr AND expr  */
-#line 95 "Optimizer.y"
+#line 96 "parser.y"
                   {}
-#line 1558 "y.tab.c"
+#line 1559 "y.tab.c"
     break;
 
   case 41: /* expr: expr OR expr  */
-#line 96 "Optimizer.y"
+#line 97 "parser.y"
                  {}
-#line 1564 "y.tab.c"
+#line 1565 "y.tab.c"
     break;
 
   case 42: /* expr: '(' expr ')'  */
-#line 97 "Optimizer.y"
+#line 98 "parser.y"
                   {(yyval.ToAttr)=(yyvsp[-1].ToAttr);}
-#line 1570 "y.tab.c"
+#line 1571 "y.tab.c"
     break;
 
   case 43: /* expr: NUM  */
-#line 98 "Optimizer.y"
+#line 99 "parser.y"
           {
         char* addr = malloc(10);
         sprintf(addr,"%d",(yyvsp[0].ToAttr)->val);
         (yyvsp[0].ToAttr)->Addr = strdup(addr);
         (yyval.ToAttr)=(yyvsp[0].ToAttr);
     }
-#line 1581 "y.tab.c"
+#line 1582 "y.tab.c"
     break;
 
   case 44: /* expr: STRING  */
-#line 104 "Optimizer.y"
+#line 105 "parser.y"
            {
         (yyvsp[0].ToAttr)->Addr = strdup((yyvsp[0].ToAttr)->varname);
         (yyval.ToAttr)=(yyvsp[0].ToAttr);
   }
-#line 1590 "y.tab.c"
+#line 1591 "y.tab.c"
     break;
 
   case 45: /* expr: Identifier  */
-#line 108 "Optimizer.y"
+#line 109 "parser.y"
                {(yyval.ToAttr)=(yyvsp[0].ToAttr);}
-#line 1596 "y.tab.c"
+#line 1597 "y.tab.c"
     break;
 
   case 46: /* Identifier: ID  */
-#line 111 "Optimizer.y"
+#line 112 "parser.y"
                 {
     if((yyvsp[0].ToAttr)->Gentry==NULL){
       printf("Syntax Error: usage of undeclared Variable : %s\n",(yyvsp[0].ToAttr)->varname);
@@ -1605,11 +1606,11 @@ yyreduce:
     (yyvsp[0].ToAttr)->Addr = strdup((yyvsp[0].ToAttr)->Gentry->name);
     (yyval.ToAttr)=(yyvsp[0].ToAttr);
   }
-#line 1609 "y.tab.c"
+#line 1610 "y.tab.c"
     break;
 
 
-#line 1613 "y.tab.c"
+#line 1614 "y.tab.c"
 
       default: break;
     }
@@ -1802,7 +1803,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 120 "Optimizer.y"
+#line 121 "parser.y"
 
 
 void yyerror(char const *s)

@@ -131,11 +131,12 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 13 "Optimizer.y"
+#line 13 "parser.y"
 
  struct TokenAttr* ToAttr;
+ int integer;
 
-#line 139 "y.tab.h"
+#line 140 "y.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;
