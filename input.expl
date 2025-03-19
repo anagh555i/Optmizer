@@ -1,0 +1,7 @@
+decl
+    int a,b,c;
+    str s1,s2;
+enddecl
+read(a);
+a= 2+3+b*c;
+write(a);

@@ -5,7 +5,7 @@
 
 mapNode* createMap(){
     mapNode* ptr=(mapNode*)malloc(sizeof(mapNode)); 
-    ptr-next=NULL;
+    ptr->next=NULL;
     return ptr;
 }
 
