@@ -131,7 +131,7 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 12 "Optimizer.y"
+#line 13 "Optimizer.y"
 
  struct TokenAttr* ToAttr;
 

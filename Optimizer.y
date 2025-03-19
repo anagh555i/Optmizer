@@ -7,6 +7,7 @@
  int yylex(void);
  void yyerror(const char* s);
  extern FILE* yyin;
+ FILE* TAC_FILE;
 %}
 
 %union{
@@ -68,7 +69,7 @@ InputStmt : READ '(' Identifier ')' ';' {};
 
 OutputStmt : WRITE '(' expr ')' ';' {};
 
-AsgStmt : Identifier '=' expr ';' {};
+AsgStmt : Identifier '=' expr ';' {fprintf(TAC_FILE,"%s = %s\n",$1->Addr,$3->Addr);};
 
 BreakStmt : BREAK ';' {}
 
@@ -80,10 +81,10 @@ Ifstmt : IF '(' expr ')' THEN Slist ELSE Slist ENDIF ';' {}
 
 WhileStmt : WHILE '(' expr ')' DO Slist ENDWHILE ';' {}
 
-expr : expr PLUS expr  {}
-  | expr MINUS expr   {}
-  | expr MUL expr {}
-  | expr DIV expr {}
+expr : expr PLUS expr  {char* addr = newTemp(); $$ = Expr_TAC_Generate($1,"+",$3,addr,TAC_FILE);}
+  | expr MINUS expr   {char* addr = newTemp(); $$ = Expr_TAC_Generate($1,"-",$3,addr,TAC_FILE);}
+  | expr MUL expr {char* addr = newTemp(); $$ = Expr_TAC_Generate($1,"*",$3,addr,TAC_FILE);}
+  | expr DIV expr {char* addr = newTemp(); $$ = Expr_TAC_Generate($1,"/",$3,addr,TAC_FILE);}
   | expr LT expr {}
   | expr LTE expr {}
   | expr GT expr {}
@@ -92,9 +93,18 @@ expr : expr PLUS expr  {}
   | expr NOTEQUALS expr {}
   | expr AND expr {}
   | expr OR expr {}
-  | '(' expr ')'  {}
-  | NUM   {}
-  | Identifier {}
+  | '(' expr ')'  {$$=$1;}
+  | NUM   {
+        char* addr = malloc(10);
+        sprintf(addr,"%d",$1->val);
+        $1->Addr = strdup(addr);
+        $$=$1;
+    }
+  | STRING {
+        $1->Addr = strdup($1->varname);
+        $$=$1;
+  }
+  | Identifier {$$=$1;}
   ;
 
 Identifier : ID {
@@ -102,7 +112,8 @@ Identifier : ID {
       printf("Syntax Error: usage of undeclared Variable : %s\n",$1->varname);
       return -1;
     } 
-  
+    $1->Addr = strdup($1->Gentry->name);
+    $$=$1;
   };
 
 %%
@@ -114,12 +125,14 @@ void yyerror(char const *s)
 
 
 int main(void) {
-  FILE* input_file = fopen("input.expl","r");
-  if(!input_file){
-    printf("Error: invalid File\n");
-  }
-  yyin = input_file;
- yyparse();
+    
+    FILE* input_file = fopen("input.expl","r");
+    TAC_FILE = fopen("TAC_file.txt","w");
+    if(!input_file){
+        printf("Error: invalid File\n");
+    }
+    yyin = input_file;
+    yyparse();
 
  return 0;
 }

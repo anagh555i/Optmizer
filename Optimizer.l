@@ -12,7 +12,7 @@ void yyerror(const char* s);
 
 %%
 
-[0-9]+ {number = atoi(yytext); yylval.ToAttr = MakeTokenAttr(number,NULL,NULL,NULL); return NUM;}
+[0-9]+ {number = atoi(yytext); yylval.ToAttr = MakeTokenAttr(number,NULL,INTEGER_TYPE,NULL); return NUM;}
 "begin" {return PBEGIN;}
 "end" {return END;}
 "read" {return READ;}
@@ -47,15 +47,16 @@ void yyerror(const char* s);
 "," {return *yytext;}
 ["][a-zA-Z0-9_ -]*["] {
     //yytext holds string
-    yylval.ToAttr = MakeTokenAttr(-1,yytext,NULL,NULL);
+    yylval.ToAttr = MakeTokenAttr(-1,yytext,STRING_TYPE,NULL);
     return STRING;
 }
 [a-zA-Z][a-zA-Z0-9_]* {
     variable = yytext;
-    yylval.ToAttr = MakeTokenAttr(-1,variable,NULL,NULL);
+    yylval.ToAttr = MakeTokenAttr(-1,variable,-1,NULL);
     Gsymbol* entry = GLookUp(variable);
     if(entry!=NULL){
         (yylval.ToAttr)->Gentry = entry;
+        (yylval.ToAttr)->Type = entry->type;
     }
     return ID;
     }

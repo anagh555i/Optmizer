@@ -789,7 +789,7 @@ do_action:	/* This label is used only to access EOF actions. */
 case 1:
 YY_RULE_SETUP
 #line 15 "Optimizer.l"
-{number = atoi(yytext); yylval.ToAttr = MakeTokenAttr(number,NULL,NULL,NULL); return NUM;}
+{number = atoi(yytext); yylval.ToAttr = MakeTokenAttr(number,NULL,INTEGER_TYPE,NULL); return NUM;}
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
@@ -956,7 +956,7 @@ YY_RULE_SETUP
 #line 48 "Optimizer.l"
 {
     //yytext holds string
-    yylval.ToAttr = MakeTokenAttr(-1,yytext,NULL,NULL);
+    yylval.ToAttr = MakeTokenAttr(-1,yytext,STRING_TYPE,NULL);
     return STRING;
 }
 	YY_BREAK
@@ -965,41 +965,42 @@ YY_RULE_SETUP
 #line 53 "Optimizer.l"
 {
     variable = yytext;
-    yylval.ToAttr = MakeTokenAttr(-1,variable,NULL,NULL);
+    yylval.ToAttr = MakeTokenAttr(-1,variable,-1,NULL);
     Gsymbol* entry = GLookUp(variable);
     if(entry!=NULL){
         (yylval.ToAttr)->Gentry = entry;
+        (yylval.ToAttr)->Type = entry->type;
     }
     return ID;
     }
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 62 "Optimizer.l"
+#line 63 "Optimizer.l"
 {}
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 63 "Optimizer.l"
+#line 64 "Optimizer.l"
 {return *yytext;}
 	YY_BREAK
 case 38:
 /* rule 38 can match eol */
 YY_RULE_SETUP
-#line 64 "Optimizer.l"
+#line 65 "Optimizer.l"
 {}
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 65 "Optimizer.l"
+#line 66 "Optimizer.l"
 {printf("%s ",yytext); yyerror("Unknown character\n");exit(1);}
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 67 "Optimizer.l"
+#line 68 "Optimizer.l"
 ECHO;
 	YY_BREAK
-#line 1003 "lex.yy.c"
+#line 1004 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -2004,7 +2005,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 67 "Optimizer.l"
+#line 68 "Optimizer.l"
 
 
 int yywrap(void) {
