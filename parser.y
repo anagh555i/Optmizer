@@ -11,6 +11,7 @@
 
 %union{
  struct TokenAttr* ToAttr;
+ int integer;
 }
 %type <ToAttr> expr  program  Slist Stmt InputStmt OutputStmt AsgStmt WhileStmt Ifstmt BreakStmt ContinueStmt  Declarations DeclList Decl Varlist Identifier
 %type <integer> Type
