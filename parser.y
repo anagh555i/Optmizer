@@ -14,9 +14,9 @@
  struct TokenAttr* ToAttr;
  int integer;
 }
-%type <ToAttr> expr  program  Slist Stmt InputStmt OutputStmt AsgStmt WhileStmt Ifstmt BreakStmt ContinueStmt  Declarations DeclList Decl Varlist Identifier
+%type <ToAttr> expr  program  Slist Stmt  AsgStmt WhileStmt Ifstmt BreakStmt ContinueStmt  Declarations DeclList Decl Varlist Identifier
 %type <integer> Type
-%token PLUS MINUS MUL DIV  PBEGIN END READ WRITE IF ELSE THEN ENDIF ENDWHILE WHILE LT GT LTE GTE EQUALS NOTEQUALS DO BREAK CONTINUE DECL ENDDECL INT STR 
+%token PLUS MINUS MUL DIV  PBEGIN END IF ELSE THEN ENDIF ENDWHILE WHILE LT GT LTE GTE EQUALS NOTEQUALS DO BREAK CONTINUE DECL ENDDECL INT STR 
 %token <ToAttr> NUM ID STRING
 %left OR
 %left AND
@@ -60,9 +60,7 @@ Slist : Slist Stmt {
 | Stmt {$$=$1;};
 ;
 
-Stmt : InputStmt {} 
-|OutputStmt {}
-|AsgStmt {$$=$1;}
+Stmt : AsgStmt {$$=$1;}
 |Ifstmt {$$=$1;}
 |WhileStmt {}
 |BreakStmt {}
@@ -71,9 +69,11 @@ Stmt : InputStmt {}
 
 // Three Address Code Generation Pending.....
 
-InputStmt : READ '(' Identifier ')' ';' {};
+// no  read and write statement required
 
-OutputStmt : WRITE '(' expr ')' ';' {};
+// InputStmt : READ '(' Identifier ')' ';' {};
+
+// OutputStmt : WRITE '(' expr ')' ';' {};
 
 AsgStmt : Identifier '=' expr ';' {
     struct TokenAttr* result_token = Assign_TAC_Generate($1,$3);

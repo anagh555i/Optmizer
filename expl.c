@@ -60,7 +60,7 @@ struct TokenAttr* MakeTokenAttr(int val, char* str_val, int Type, struct Gsymbol
     entry->Addr = NULL;
     entry->trueLabel = NULL;
     entry->falseLabel = NULL;
-    entry->Code =NULL;
+    entry->Code ="";
     entry->next = NULL;
     return entry;
 }

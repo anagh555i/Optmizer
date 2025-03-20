@@ -3,31 +3,8 @@ decl
     str s1,s2;
 enddecl
 
-if(a==c)then
-    a=a+1;
-    c= c+43/b;
-else 
-    a=a+(2+b);
-    c=c+1;
-endif;
-if(a==c)then
-    a=a+1;
-    c= c+43/b;
-else 
-    a=a+(2+b);
-    c=c+1;
-endif;if(a<=c)then
-    a=a+1;
-    c= c+43/b;
-else 
-    a=a+(2+b);
-    c=c+1;
-endif;if(a>c)then
-    a=a+1;
-    c= c+43/b;
-else 
-    a=a+(2+b);
-    c=c+1;
-endif;
+a =b;
+b=1;
+
 
 

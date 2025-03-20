@@ -1,0 +1,443 @@
+Terminals unused in grammar
+
+    ELSE
+    LABEL
+
+
+Grammar
+
+    0 $accept: Program $end
+
+    1 Program: begin StmtList end
+
+    2 StmtList: StmtList Stmt
+    3         | Stmt
+
+    4 Stmt: ID '=' Expr
+    5     | IF BExpr GOTO ID
+    6     | GOTO ID
+    7     | ID ':'
+
+    8 BExpr: ID GE ID
+    9      | ID LE ID
+   10      | ID NEQ ID
+   11      | ID EQ ID
+   12      | ID GT ID
+   13      | ID LT ID
+
+   14 Expr: ID
+   15     | NUM
+   16     | Expr '+' Expr
+   17     | Expr '-' Expr
+   18     | Expr '*' Expr
+   19     | Expr '/' Expr
+
+
+Terminals, with rules where they appear
+
+    $end (0) 0
+    '*' (42) 18
+    '+' (43) 16
+    '-' (45) 17
+    '/' (47) 19
+    ':' (58) 7
+    '=' (61) 4
+    error (256)
+    NUM (258) 15
+    IF (259) 5
+    ELSE (260)
+    GOTO (261) 5 6
+    NEQ (262) 10
+    EQ (263) 11
+    LE (264) 9
+    GE (265) 8
+    GT (266) 12
+    LT (267) 13
+    begin (268) 1
+    end (269) 1
+    ID <String> (270) 4 5 6 7 8 9 10 11 12 13 14
+    LABEL <String> (271)
+
+
+Nonterminals, with rules where they appear
+
+    $accept (23)
+        on left: 0
+    Program (24)
+        on left: 1
+        on right: 0
+    StmtList (25)
+        on left: 2 3
+        on right: 1 2
+    Stmt (26)
+        on left: 4 5 6 7
+        on right: 2 3
+    BExpr (27)
+        on left: 8 9 10 11 12 13
+        on right: 5
+    Expr (28)
+        on left: 14 15 16 17 18 19
+        on right: 4 16 17 18 19
+
+
+State 0
+
+    0 $accept: • Program $end
+
+    begin  shift, and go to state 1
+
+    Program  go to state 2
+
+
+State 1
+
+    1 Program: begin • StmtList end
+
+    IF    shift, and go to state 3
+    GOTO  shift, and go to state 4
+    ID    shift, and go to state 5
+
+    StmtList  go to state 6
+    Stmt      go to state 7
+
+
+State 2
+
+    0 $accept: Program • $end
+
+    $end  shift, and go to state 8
+
+
+State 3
+
+    5 Stmt: IF • BExpr GOTO ID
+
+    ID  shift, and go to state 9
+
+    BExpr  go to state 10
+
+
+State 4
+
+    6 Stmt: GOTO • ID
+
+    ID  shift, and go to state 11
+
+
+State 5
+
+    4 Stmt: ID • '=' Expr
+    7     | ID • ':'
+
+    '='  shift, and go to state 12
+    ':'  shift, and go to state 13
+
+
+State 6
+
+    1 Program: begin StmtList • end
+    2 StmtList: StmtList • Stmt
+
+    IF    shift, and go to state 3
+    GOTO  shift, and go to state 4
+    end   shift, and go to state 14
+    ID    shift, and go to state 5
+
+    Stmt  go to state 15
+
+
+State 7
+
+    3 StmtList: Stmt •
+
+    $default  reduce using rule 3 (StmtList)
+
+
+State 8
+
+    0 $accept: Program $end •
+
+    $default  accept
+
+
+State 9
+
+    8 BExpr: ID • GE ID
+    9      | ID • LE ID
+   10      | ID • NEQ ID
+   11      | ID • EQ ID
+   12      | ID • GT ID
+   13      | ID • LT ID
+
+    NEQ  shift, and go to state 16
+    EQ   shift, and go to state 17
+    LE   shift, and go to state 18
+    GE   shift, and go to state 19
+    GT   shift, and go to state 20
+    LT   shift, and go to state 21
+
+
+State 10
+
+    5 Stmt: IF BExpr • GOTO ID
+
+    GOTO  shift, and go to state 22
+
+
+State 11
+
+    6 Stmt: GOTO ID •
+
+    $default  reduce using rule 6 (Stmt)
+
+
+State 12
+
+    4 Stmt: ID '=' • Expr
+
+    NUM  shift, and go to state 23
+    ID   shift, and go to state 24
+
+    Expr  go to state 25
+
+
+State 13
+
+    7 Stmt: ID ':' •
+
+    $default  reduce using rule 7 (Stmt)
+
+
+State 14
+
+    1 Program: begin StmtList end •
+
+    $default  reduce using rule 1 (Program)
+
+
+State 15
+
+    2 StmtList: StmtList Stmt •
+
+    $default  reduce using rule 2 (StmtList)
+
+
+State 16
+
+   10 BExpr: ID NEQ • ID
+
+    ID  shift, and go to state 26
+
+
+State 17
+
+   11 BExpr: ID EQ • ID
+
+    ID  shift, and go to state 27
+
+
+State 18
+
+    9 BExpr: ID LE • ID
+
+    ID  shift, and go to state 28
+
+
+State 19
+
+    8 BExpr: ID GE • ID
+
+    ID  shift, and go to state 29
+
+
+State 20
+
+   12 BExpr: ID GT • ID
+
+    ID  shift, and go to state 30
+
+
+State 21
+
+   13 BExpr: ID LT • ID
+
+    ID  shift, and go to state 31
+
+
+State 22
+
+    5 Stmt: IF BExpr GOTO • ID
+
+    ID  shift, and go to state 32
+
+
+State 23
+
+   15 Expr: NUM •
+
+    $default  reduce using rule 15 (Expr)
+
+
+State 24
+
+   14 Expr: ID •
+
+    $default  reduce using rule 14 (Expr)
+
+
+State 25
+
+    4 Stmt: ID '=' Expr •
+   16 Expr: Expr • '+' Expr
+   17     | Expr • '-' Expr
+   18     | Expr • '*' Expr
+   19     | Expr • '/' Expr
+
+    '+'  shift, and go to state 33
+    '-'  shift, and go to state 34
+    '*'  shift, and go to state 35
+    '/'  shift, and go to state 36
+
+    $default  reduce using rule 4 (Stmt)
+
+
+State 26
+
+   10 BExpr: ID NEQ ID •
+
+    $default  reduce using rule 10 (BExpr)
+
+
+State 27
+
+   11 BExpr: ID EQ ID •
+
+    $default  reduce using rule 11 (BExpr)
+
+
+State 28
+
+    9 BExpr: ID LE ID •
+
+    $default  reduce using rule 9 (BExpr)
+
+
+State 29
+
+    8 BExpr: ID GE ID •
+
+    $default  reduce using rule 8 (BExpr)
+
+
+State 30
+
+   12 BExpr: ID GT ID •
+
+    $default  reduce using rule 12 (BExpr)
+
+
+State 31
+
+   13 BExpr: ID LT ID •
+
+    $default  reduce using rule 13 (BExpr)
+
+
+State 32
+
+    5 Stmt: IF BExpr GOTO ID •
+
+    $default  reduce using rule 5 (Stmt)
+
+
+State 33
+
+   16 Expr: Expr '+' • Expr
+
+    NUM  shift, and go to state 23
+    ID   shift, and go to state 24
+
+    Expr  go to state 37
+
+
+State 34
+
+   17 Expr: Expr '-' • Expr
+
+    NUM  shift, and go to state 23
+    ID   shift, and go to state 24
+
+    Expr  go to state 38
+
+
+State 35
+
+   18 Expr: Expr '*' • Expr
+
+    NUM  shift, and go to state 23
+    ID   shift, and go to state 24
+
+    Expr  go to state 39
+
+
+State 36
+
+   19 Expr: Expr '/' • Expr
+
+    NUM  shift, and go to state 23
+    ID   shift, and go to state 24
+
+    Expr  go to state 40
+
+
+State 37
+
+   16 Expr: Expr • '+' Expr
+   16     | Expr '+' Expr •
+   17     | Expr • '-' Expr
+   18     | Expr • '*' Expr
+   19     | Expr • '/' Expr
+
+    '-'  shift, and go to state 34
+    '*'  shift, and go to state 35
+    '/'  shift, and go to state 36
+
+    $default  reduce using rule 16 (Expr)
+
+
+State 38
+
+   16 Expr: Expr • '+' Expr
+   17     | Expr • '-' Expr
+   17     | Expr '-' Expr •
+   18     | Expr • '*' Expr
+   19     | Expr • '/' Expr
+
+    '*'  shift, and go to state 35
+    '/'  shift, and go to state 36
+
+    $default  reduce using rule 17 (Expr)
+
+
+State 39
+
+   16 Expr: Expr • '+' Expr
+   17     | Expr • '-' Expr
+   18     | Expr • '*' Expr
+   18     | Expr '*' Expr •
+   19     | Expr • '/' Expr
+
+    '/'  shift, and go to state 36
+
+    $default  reduce using rule 18 (Expr)
+
+
+State 40
+
+   16 Expr: Expr • '+' Expr
+   17     | Expr • '-' Expr
+   18     | Expr • '*' Expr
+   19     | Expr • '/' Expr
+   19     | Expr '/' Expr •
+
+    $default  reduce using rule 19 (Expr)
