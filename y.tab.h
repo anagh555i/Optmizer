@@ -54,38 +54,20 @@ extern int yydebug;
     YYEOF = 0,                     /* "end of file"  */
     YYerror = 256,                 /* error  */
     YYUNDEF = 257,                 /* "invalid token"  */
-    PLUS = 258,                    /* PLUS  */
-    MINUS = 259,                   /* MINUS  */
-    MUL = 260,                     /* MUL  */
-    DIV = 261,                     /* DIV  */
-    PBEGIN = 262,                  /* PBEGIN  */
-    END = 263,                     /* END  */
-    READ = 264,                    /* READ  */
-    WRITE = 265,                   /* WRITE  */
-    IF = 266,                      /* IF  */
-    ELSE = 267,                    /* ELSE  */
-    THEN = 268,                    /* THEN  */
-    ENDIF = 269,                   /* ENDIF  */
-    ENDWHILE = 270,                /* ENDWHILE  */
-    WHILE = 271,                   /* WHILE  */
-    OR = 272,                      /* OR  */
-    AND = 273,                     /* AND  */
-    LT = 274,                      /* LT  */
-    GT = 275,                      /* GT  */
-    LTE = 276,                     /* LTE  */
-    GTE = 277,                     /* GTE  */
-    EQUALS = 278,                  /* EQUALS  */
-    NOTEQUALS = 279,               /* NOTEQUALS  */
-    DO = 280,                      /* DO  */
-    BREAK = 281,                   /* BREAK  */
-    CONTINUE = 282,                /* CONTINUE  */
-    DECL = 283,                    /* DECL  */
-    ENDDECL = 284,                 /* ENDDECL  */
-    INT = 285,                     /* INT  */
-    STR = 286,                     /* STR  */
-    NUM = 287,                     /* NUM  */
-    ID = 288,                      /* ID  */
-    STRING = 289                   /* STRING  */
+    IF = 258,                      /* IF  */
+    ELSE = 259,                    /* ELSE  */
+    GOTO = 260,                    /* GOTO  */
+    NEQ = 261,                     /* NEQ  */
+    EQ = 262,                      /* EQ  */
+    LE = 263,                      /* LE  */
+    GE = 264,                      /* GE  */
+    GT = 265,                      /* GT  */
+    LT = 266,                      /* LT  */
+    begin = 267,                   /* begin  */
+    end = 268,                     /* end  */
+    ID = 269,                      /* ID  */
+    LABEL = 270,                   /* LABEL  */
+    NUM = 271                      /* NUM  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -94,48 +76,32 @@ extern int yydebug;
 #define YYEOF 0
 #define YYerror 256
 #define YYUNDEF 257
-#define PLUS 258
-#define MINUS 259
-#define MUL 260
-#define DIV 261
-#define PBEGIN 262
-#define END 263
-#define READ 264
-#define WRITE 265
-#define IF 266
-#define ELSE 267
-#define THEN 268
-#define ENDIF 269
-#define ENDWHILE 270
-#define WHILE 271
-#define OR 272
-#define AND 273
-#define LT 274
-#define GT 275
-#define LTE 276
-#define GTE 277
-#define EQUALS 278
-#define NOTEQUALS 279
-#define DO 280
-#define BREAK 281
-#define CONTINUE 282
-#define DECL 283
-#define ENDDECL 284
-#define INT 285
-#define STR 286
-#define NUM 287
-#define ID 288
-#define STRING 289
+#define IF 258
+#define ELSE 259
+#define GOTO 260
+#define NEQ 261
+#define EQ 262
+#define LE 263
+#define GE 264
+#define GT 265
+#define LT 266
+#define begin 267
+#define end 268
+#define ID 269
+#define LABEL 270
+#define NUM 271
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 12 "Optimizer.y"
+#line 17 "optimizer.y"
 
- struct TokenAttr* ToAttr;
+ char* String;
+ int Int;
+ struct mapNode* node;
 
-#line 139 "y.tab.h"
+#line 105 "y.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;
