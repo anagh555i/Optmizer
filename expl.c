@@ -51,11 +51,61 @@ void print_GSymbolTable(){
     }
     printf("\n\n");
 };
-struct TokenAttr* MakeTokenAttr(int val, char* str_val, char* op, struct Gsymbol* Gentry) {
+struct TokenAttr* MakeTokenAttr(int val, char* str_val, int Type, struct Gsymbol* Gentry) {
     struct TokenAttr* entry = (struct TokenAttr*)malloc(sizeof(struct TokenAttr));
     entry->val = val;
     entry->varname = str_val ? strdup(str_val) : NULL;
-    entry->op = op ? strdup(op) : NULL;
+    entry->Type = Type;
     entry->Gentry = Gentry;
+    entry->Addr = NULL;
     return entry;
 }
+
+
+
+//---------------------------------- THREE ADDRESS CODE GENERATION FUNCTIONS ----------------------------------
+
+int tempAddress = 0;
+
+char* newTemp(){
+    char* addr = malloc(5);
+    sprintf(addr,"t%d",tempAddress++);
+    return addr;
+}
+
+int isArithOp(char* op){
+    if(!strcmp(op,"+") || !strcmp(op,"*") || !strcmp(op,"-") || !strcmp(op,"/")){
+        return 1;
+    } 
+    else return 0;
+}
+
+void CleanupToken(TokenAttr* token){
+    if(token->Addr)free(token->Addr);
+    if(token->varname)free(token->varname);
+    free(token);
+}
+
+struct TokenAttr* Expr_TAC_Generate(TokenAttr* operand_1,char* op,TokenAttr* operand_2,char* result,FILE* TAC_FILE){
+    
+    int result_type = isArithOp(op)?INTEGER_TYPE:BOOLEAN_TYPE;
+
+    if((operand_1->Type!=INTEGER_TYPE || operand_2->Type!=INTEGER_TYPE) && isArithOp(op) ){
+        printf("Error : Non-int Type in  Arithmetic Operation\n");
+        exit(1);//Need not exit....
+    }
+    //generating 3-address code
+    fprintf(TAC_FILE,"%s = %s %s %s\n",result,operand_1->Addr,op,operand_2->Addr);
+    
+    TokenAttr* result_token = MakeTokenAttr(-1,NULL,result_type,NULL);
+    result_token->Addr = strdup(result);
+
+    
+    // CleanupToken(operand_1);
+    // CleanupToken(operand_2);
+
+    return result_token;
+
+}
+
+

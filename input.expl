@@ -2,6 +2,8 @@ decl
     int a,b,c;
     str s1,s2;
 enddecl
-read(a);
-a= 2+3+b*c;
-write(a);
+
+a = 3+5*b;
+c= a*b/(3+43+c*(a*2));
+
+
