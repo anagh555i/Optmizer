@@ -14,9 +14,9 @@
  struct TokenAttr* ToAttr;
  int integer;
 }
-%type <ToAttr> expr  program  Slist Stmt InputStmt OutputStmt AsgStmt WhileStmt Ifstmt BreakStmt ContinueStmt  Declarations DeclList Decl Varlist Identifier
+%type <ToAttr> expr  program  Slist Stmt  AsgStmt WhileStmt Ifstmt BreakStmt ContinueStmt  Declarations DeclList Decl Varlist Identifier
 %type <integer> Type
-%token PLUS MINUS MUL DIV  PBEGIN END READ WRITE IF ELSE THEN ENDIF ENDWHILE WHILE OR AND LT GT LTE GTE EQUALS NOTEQUALS DO BREAK CONTINUE DECL ENDDECL INT STR 
+%token PLUS MINUS MUL DIV  PBEGIN END IF ELSE THEN ENDIF ENDWHILE WHILE LT GT LTE GTE EQUALS NOTEQUALS DO BREAK CONTINUE DECL ENDDECL INT STR 
 %token <ToAttr> NUM ID STRING
 %left OR
 %left AND
@@ -30,6 +30,7 @@
 
 program : Declarations Slist {
     printf("Program finished\nNo Syntax Error\n");
+    fprintf(TAC_FILE,"%s",$2->Code); //Here the entire code is wwritten to the TAC file
    }
   | {printf("Write Code in input.expl bruh\n");exit(1);};
   
@@ -51,14 +52,16 @@ Varlist : Varlist ',' ID {
 };
 | ID {G_Install($1->varname,curr_declaration_type,1);}
 
-Slist : Slist Stmt {}
-| Stmt {};
+Slist : Slist Stmt {
+  struct TokenAttr* result_token = $2;
+  result_token->Code = strcat($1->Code,result_token->Code);
+  $$=result_token;
+}
+| Stmt {$$=$1;};
 ;
 
-Stmt : InputStmt {} 
-|OutputStmt {}
-|AsgStmt {}
-|Ifstmt {}
+Stmt : AsgStmt {$$=$1;}
+|Ifstmt {$$=$1;}
 |WhileStmt {}
 |BreakStmt {}
 |ContinueStmt {}
@@ -66,44 +69,126 @@ Stmt : InputStmt {}
 
 // Three Address Code Generation Pending.....
 
-InputStmt : READ '(' Identifier ')' ';' {};
+// no  read and write statement required
 
-OutputStmt : WRITE '(' expr ')' ';' {};
+// InputStmt : READ '(' Identifier ')' ';' {};
 
-AsgStmt : Identifier '=' expr ';' {fprintf(TAC_FILE,"%s = %s\n",$1->Addr,$3->Addr);};
+// OutputStmt : WRITE '(' expr ')' ';' {};
+
+AsgStmt : Identifier '=' expr ';' {
+    struct TokenAttr* result_token = Assign_TAC_Generate($1,$3);
+    result_token->Code = strcat($3->Code,result_token->Code);
+    // printf("Code: %s\n",result_token->Code);
+    $$= result_token;
+};
 
 BreakStmt : BREAK ';' {}
 
 ContinueStmt : CONTINUE ';' {}
 
-Ifstmt : IF '(' expr ')' THEN Slist ELSE Slist ENDIF ';' {}
-| IF '(' expr ')' THEN Slist ENDIF ';' {}
+Ifstmt : IF '(' expr ')' THEN Slist ELSE Slist ENDIF ';' {
+    char* BooleanTrue = $3->trueLabel;
+    char* BooleanFalse = $3->falseLabel;
+    char* ExitLabel = newlabel();
+    struct TokenAttr* result_token = IfElse_TAC_Generate($3,$6,$8,BooleanTrue,BooleanFalse,ExitLabel);
+    $$=result_token;
+  }
+| IF '(' expr ')' THEN Slist ENDIF ';' {
+    char* BooleanTrue = $3->trueLabel;
+    char* BooleanFalse = $3->falseLabel;
+    struct TokenAttr* result_token = If_TAC_Generate($3,BooleanTrue,$6,BooleanFalse);
+    $$=result_token;
+  }
 ;
 
 WhileStmt : WHILE '(' expr ')' DO Slist ENDWHILE ';' {}
 
-expr : expr PLUS expr  {char* addr = newTemp(); $$ = Expr_TAC_Generate($1,"+",$3,addr,TAC_FILE);}
-  | expr MINUS expr   {char* addr = newTemp(); $$ = Expr_TAC_Generate($1,"-",$3,addr,TAC_FILE);}
-  | expr MUL expr {char* addr = newTemp(); $$ = Expr_TAC_Generate($1,"*",$3,addr,TAC_FILE);}
-  | expr DIV expr {char* addr = newTemp(); $$ = Expr_TAC_Generate($1,"/",$3,addr,TAC_FILE);}
+expr : expr PLUS expr  {
+    char* addr = newTemp(); 
+    struct TokenAttr* result_token = Expr_TAC_Generate($1,"+",$3,addr);
+    result_token->Code = strcat($1->Code,strcat($3->Code,result_token->Code));
+    $$= result_token;
+  }
+  | expr MINUS expr   {
+    char* addr = newTemp(); 
+    struct TokenAttr* result_token = Expr_TAC_Generate($1,"-",$3,addr);
+    result_token->Code = strcat($1->Code,strcat($3->Code,result_token->Code));
+    $$= result_token;
+  }
+  | expr MUL expr {
+    char* addr = newTemp(); 
+    struct TokenAttr* result_token = Expr_TAC_Generate($1,"*",$3,addr);
+    result_token->Code = strcat($1->Code,strcat($3->Code,result_token->Code));
+    $$= result_token;
+  }
+  | expr DIV expr {
+    char* addr = newTemp(); 
+    struct TokenAttr* result_token = Expr_TAC_Generate($1,"/",$3,addr);
+    result_token->Code = strcat($1->Code,strcat($3->Code,result_token->Code));
+    $$= result_token;
+  }
   // TAC Will be done for Flow Statement Control
-  | expr LT expr {}
-  | expr LTE expr {}
-  | expr GT expr {}
-  | expr GTE expr {}
-  | expr EQUALS expr {}
-  | expr NOTEQUALS expr {}
-  | expr AND expr {}
-  | expr OR expr {}
+  | expr LT expr {
+      char* trueLabel = newlabel();
+      char* falseLabel = newlabel(); 
+      struct TokenAttr* result_token = Boolean_TAC_Generate($1,"<",$3,trueLabel,falseLabel);
+      result_token->Code = strcat($1->Code,strcat($3->Code,result_token->Code));
+      $$=result_token;
+    }
+  | expr LTE expr {
+      char* trueLabel = newlabel();
+      char* falseLabel = newlabel(); 
+      struct TokenAttr* result_token = Boolean_TAC_Generate($1,"<=",$3,trueLabel,falseLabel);
+      result_token->Code = strcat($1->Code,strcat($3->Code,result_token->Code));
+      $$=result_token;
+    }
+  | expr GT expr {
+      char* trueLabel = newlabel();
+      char* falseLabel = newlabel(); 
+      struct TokenAttr* result_token = Boolean_TAC_Generate($1,">",$3,trueLabel,falseLabel);
+      result_token->Code = strcat($1->Code,strcat($3->Code,result_token->Code));
+      $$=result_token;
+    }
+  | expr GTE expr {
+      char* trueLabel = newlabel();
+      char* falseLabel = newlabel(); 
+      struct TokenAttr* result_token = Boolean_TAC_Generate($1,">=",$3,trueLabel,falseLabel);
+      result_token->Code = strcat($1->Code,strcat($3->Code,result_token->Code));
+      $$=result_token;
+    }
+  | expr EQUALS expr {
+      char* trueLabel = newlabel();
+      char* falseLabel = newlabel(); 
+      struct TokenAttr* result_token = Boolean_TAC_Generate($1,"==",$3,trueLabel,falseLabel);
+      result_token->Code = strcat($1->Code,strcat($3->Code,result_token->Code));
+      $$=result_token;
+    }
+  | expr NOTEQUALS expr {
+      char* trueLabel = newlabel();
+      char* falseLabel = newlabel(); 
+      struct TokenAttr* result_token = Boolean_TAC_Generate($1,"!=",$3,trueLabel,falseLabel);
+      result_token->Code = strcat($1->Code,strcat($3->Code,result_token->Code));
+      $$=result_token;
+    }
+    //Not required for now
+  // | expr AND expr {
+  //   char* trueLabel_1 = newlabel();
+  //   char* trueLabel_2 = newlabel();
+  //   char* falseLabel = newlabel(); 
+  //   struct TokenAttr* result_token = Boolean_TAC_Generate($1,"&&",$3,trueLabel_1,falseLabel);
+  // }
+  // | expr OR expr {}
   | '(' expr ')'  {$$=$2;}
   | NUM   {
         char* addr = malloc(10);
         sprintf(addr,"%d",$1->val);
         $1->Addr = strdup(addr);
+        $1->Code = strdup("");;
         $$=$1;
     }
   | STRING {
         $1->Addr = strdup($1->varname);
+        $1->Code = strdup("");;
         $$=$1;
   }
   | Identifier {$$=$1;}
@@ -115,6 +200,7 @@ Identifier : ID {
       return -1;
     } 
     $1->Addr = strdup($1->Gentry->name);
+    $1->Code = strdup("");
     $$=$1;
   };
 

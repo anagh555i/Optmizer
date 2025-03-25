@@ -15,8 +15,6 @@ void yyerror(const char* s);
 [0-9]+ {number = atoi(yytext); yylval.ToAttr = MakeTokenAttr(number,NULL,INTEGER_TYPE,NULL); return NUM;}
 "begin" {return PBEGIN;}
 "end" {return END;}
-"read" {return READ;}
-"write" {return WRITE;}
 "if" {return IF;}
 "then" {return THEN;}
 "else" {return ELSE;}
@@ -36,8 +34,6 @@ void yyerror(const char* s);
 ">=" {return GTE;}
 "==" {return EQUALS;}
 "!=" {return NOTEQUALS;}
-"&&" {return AND;}
-"||" {return OR;}
 "+" {return PLUS;}
 "-" {return MINUS;}
 "*" {return MUL;}

@@ -1490,7 +1490,7 @@ void yyerror(char const *s){
 }
 
 int main(){
-    FILE *fp=fopen("example.tac","r");
+    FILE *fp=fopen("TAC_file.txt","r");
     outFile=fopen("optimized.tac","w");
     hash=createMap();
     yyin=fp;
