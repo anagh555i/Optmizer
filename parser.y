@@ -75,12 +75,7 @@ InputStmt : READ '(' Identifier ')' ';' {};
 
 OutputStmt : WRITE '(' expr ')' ';' {};
 
-AsgStmt : Identifier '=' expr ';' {
-    struct TokenAttr* result_token = Assign_TAC_Generate($1,$3);
-    result_token->Code = strcat($3->Code,result_token->Code);
-    // printf("Code: %s\n",result_token->Code);
-    $$= result_token;
-};
+AsgStmt : Identifier '=' expr ';' {};
 
 BreakStmt : BREAK ';' {}
 
@@ -103,95 +98,21 @@ Ifstmt : IF '(' expr ')' THEN Slist ELSE Slist ENDIF ';' {
 
 WhileStmt : WHILE '(' expr ')' DO Slist ENDWHILE ';' {}
 
-expr : expr PLUS expr  {
-    char* addr = newTemp(); 
-    struct TokenAttr* result_token = Expr_TAC_Generate($1,"+",$3,addr);
-    result_token->Code = strcat($1->Code,strcat($3->Code,result_token->Code));
-    $$= result_token;
-  }
-  | expr MINUS expr   {
-    char* addr = newTemp(); 
-    struct TokenAttr* result_token = Expr_TAC_Generate($1,"-",$3,addr);
-    result_token->Code = strcat($1->Code,strcat($3->Code,result_token->Code));
-    $$= result_token;
-  }
-  | expr MUL expr {
-    char* addr = newTemp(); 
-    struct TokenAttr* result_token = Expr_TAC_Generate($1,"*",$3,addr);
-    result_token->Code = strcat($1->Code,strcat($3->Code,result_token->Code));
-    $$= result_token;
-  }
-  | expr DIV expr {
-    char* addr = newTemp(); 
-    struct TokenAttr* result_token = Expr_TAC_Generate($1,"/",$3,addr);
-    result_token->Code = strcat($1->Code,strcat($3->Code,result_token->Code));
-    $$= result_token;
-  }
-  // TAC Will be done for Flow Statement Control
-  | expr LT expr {
-      char* trueLabel = newlabel();
-      char* falseLabel = newlabel(); 
-      struct TokenAttr* result_token = Boolean_TAC_Generate($1,"<",$3,trueLabel,falseLabel);
-      result_token->Code = strcat($1->Code,strcat($3->Code,result_token->Code));
-      $$=result_token;
-    }
-  | expr LTE expr {
-      char* trueLabel = newlabel();
-      char* falseLabel = newlabel(); 
-      struct TokenAttr* result_token = Boolean_TAC_Generate($1,"<=",$3,trueLabel,falseLabel);
-      result_token->Code = strcat($1->Code,strcat($3->Code,result_token->Code));
-      $$=result_token;
-    }
-  | expr GT expr {
-      char* trueLabel = newlabel();
-      char* falseLabel = newlabel(); 
-      struct TokenAttr* result_token = Boolean_TAC_Generate($1,">",$3,trueLabel,falseLabel);
-      result_token->Code = strcat($1->Code,strcat($3->Code,result_token->Code));
-      $$=result_token;
-    }
-  | expr GTE expr {
-      char* trueLabel = newlabel();
-      char* falseLabel = newlabel(); 
-      struct TokenAttr* result_token = Boolean_TAC_Generate($1,">=",$3,trueLabel,falseLabel);
-      result_token->Code = strcat($1->Code,strcat($3->Code,result_token->Code));
-      $$=result_token;
-    }
-  | expr EQUALS expr {
-      char* trueLabel = newlabel();
-      char* falseLabel = newlabel(); 
-      struct TokenAttr* result_token = Boolean_TAC_Generate($1,"==",$3,trueLabel,falseLabel);
-      result_token->Code = strcat($1->Code,strcat($3->Code,result_token->Code));
-      $$=result_token;
-    }
-  | expr NOTEQUALS expr {
-      char* trueLabel = newlabel();
-      char* falseLabel = newlabel(); 
-      struct TokenAttr* result_token = Boolean_TAC_Generate($1,"!=",$3,trueLabel,falseLabel);
-      result_token->Code = strcat($1->Code,strcat($3->Code,result_token->Code));
-      $$=result_token;
-    }
-    //Not required for now
-  // | expr AND expr {
-  //   char* trueLabel_1 = newlabel();
-  //   char* trueLabel_2 = newlabel();
-  //   char* falseLabel = newlabel(); 
-  //   struct TokenAttr* result_token = Boolean_TAC_Generate($1,"&&",$3,trueLabel_1,falseLabel);
-  // }
-  // | expr OR expr {}
-  | '(' expr ')'  {$$=$2;}
-  | NUM   {
-        char* addr = malloc(10);
-        sprintf(addr,"%d",$1->val);
-        $1->Addr = strdup(addr);
-        $1->Code = strdup("");;
-        $$=$1;
-    }
-  | STRING {
-        $1->Addr = strdup($1->varname);
-        $1->Code = strdup("");;
-        $$=$1;
-  }
-  | Identifier {$$=$1;}
+expr : expr PLUS expr  {}
+  | expr MINUS expr   {}
+  | expr MUL expr {}
+  | expr DIV expr {}
+  | expr LT expr {}
+  | expr LTE expr {}
+  | expr GT expr {}
+  | expr GTE expr {}
+  | expr EQUALS expr {}
+  | expr NOTEQUALS expr {}
+  | expr AND expr {}
+  | expr OR expr {}
+  | '(' expr ')'  {}
+  | NUM   {}
+  | Identifier {}
   ;
 
 Identifier : ID {
@@ -199,9 +120,7 @@ Identifier : ID {
       printf("Syntax Error: usage of undeclared Variable : %s\n",$1->varname);
       return -1;
     } 
-    $1->Addr = strdup($1->Gentry->name);
-    $1->Code = strdup("");
-    $$=$1;
+  
   };
 
 %%
