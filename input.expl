@@ -1,9 +1,33 @@
 decl
-    int a,b,c;
+    int a,b,c,d;
     str s1,s2;
 enddecl
 
-a = 3+5*b;
-c= a*b/(3+43+c*(a*2));
+if(a==c)then
+    a=a+1;
+    c= c+43/b;
+else 
+    a=a+(2+b);
+    c=c+1;
+endif;
+if(a==c)then
+    a=a+1;
+    c= c+43/b;
+else 
+    a=a+(2+b);
+    c=c+1;
+endif;if(a<=c)then
+    a=a+1;
+    c= c+43/b;
+else 
+    a=a+(2+b);
+    c=c+1;
+endif;if(a>c)then
+    a=a+1;
+    c= c+43/b;
+else 
+    a=a+(2+b);
+    c=c+1;
+endif;
 
 

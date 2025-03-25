@@ -68,24 +68,24 @@ extern int yydebug;
     ENDIF = 269,                   /* ENDIF  */
     ENDWHILE = 270,                /* ENDWHILE  */
     WHILE = 271,                   /* WHILE  */
-    OR = 272,                      /* OR  */
-    AND = 273,                     /* AND  */
-    LT = 274,                      /* LT  */
-    GT = 275,                      /* GT  */
-    LTE = 276,                     /* LTE  */
-    GTE = 277,                     /* GTE  */
-    EQUALS = 278,                  /* EQUALS  */
-    NOTEQUALS = 279,               /* NOTEQUALS  */
-    DO = 280,                      /* DO  */
-    BREAK = 281,                   /* BREAK  */
-    CONTINUE = 282,                /* CONTINUE  */
-    DECL = 283,                    /* DECL  */
-    ENDDECL = 284,                 /* ENDDECL  */
-    INT = 285,                     /* INT  */
-    STR = 286,                     /* STR  */
-    NUM = 287,                     /* NUM  */
-    ID = 288,                      /* ID  */
-    STRING = 289                   /* STRING  */
+    LT = 272,                      /* LT  */
+    GT = 273,                      /* GT  */
+    LTE = 274,                     /* LTE  */
+    GTE = 275,                     /* GTE  */
+    EQUALS = 276,                  /* EQUALS  */
+    NOTEQUALS = 277,               /* NOTEQUALS  */
+    DO = 278,                      /* DO  */
+    BREAK = 279,                   /* BREAK  */
+    CONTINUE = 280,                /* CONTINUE  */
+    DECL = 281,                    /* DECL  */
+    ENDDECL = 282,                 /* ENDDECL  */
+    INT = 283,                     /* INT  */
+    STR = 284,                     /* STR  */
+    NUM = 285,                     /* NUM  */
+    ID = 286,                      /* ID  */
+    STRING = 287,                  /* STRING  */
+    OR = 288,                      /* OR  */
+    AND = 289                      /* AND  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -108,24 +108,24 @@ extern int yydebug;
 #define ENDIF 269
 #define ENDWHILE 270
 #define WHILE 271
-#define OR 272
-#define AND 273
-#define LT 274
-#define GT 275
-#define LTE 276
-#define GTE 277
-#define EQUALS 278
-#define NOTEQUALS 279
-#define DO 280
-#define BREAK 281
-#define CONTINUE 282
-#define DECL 283
-#define ENDDECL 284
-#define INT 285
-#define STR 286
-#define NUM 287
-#define ID 288
-#define STRING 289
+#define LT 272
+#define GT 273
+#define LTE 274
+#define GTE 275
+#define EQUALS 276
+#define NOTEQUALS 277
+#define DO 278
+#define BREAK 279
+#define CONTINUE 280
+#define DECL 281
+#define ENDDECL 282
+#define INT 283
+#define STR 284
+#define NUM 285
+#define ID 286
+#define STRING 287
+#define OR 288
+#define AND 289
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED

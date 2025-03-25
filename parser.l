@@ -36,8 +36,6 @@ void yyerror(const char* s);
 ">=" {return GTE;}
 "==" {return EQUALS;}
 "!=" {return NOTEQUALS;}
-"&&" {return AND;}
-"||" {return OR;}
 "+" {return PLUS;}
 "-" {return MINUS;}
 "*" {return MUL;}
