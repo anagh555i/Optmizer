@@ -53,8 +53,8 @@ Stmt        :   ID '=' Expr         {handleAssignment($1,$3);}
             |   GOTO ID             {freeMap();fprintf(outFile,"goto %s\n",$2);}
             |   ID ':'              {freeMap();fprintf(outFile,"%s:\n",$1);}
             ;
-BExpr       :   El GE El            {sprintf($$,"%s >= %s",$1->a,$3->a);$$=strdup($$);}  
-            |   El LE El            {sprintf($$,"%s <= %s",$1->a,$3->a);$$=strdup($$);}  
+BExpr       :   El GE El            {sprintf($$,"%s <= %s",$1->a,$3->a);$$=strdup($$);}  
+            |   El LE El            {sprintf($$,"%s >= %s",$1->a,$3->a);$$=strdup($$);}  
             |   El NEQ El           {sprintf($$,"%s != %s",$1->a,$3->a);$$=strdup($$);}  
             |   El EQ El            {sprintf($$,"%s == %s",$1->a,$3->a);$$=strdup($$);}  
             |   El GT El            {sprintf($$,"%s > %s",$1->a,$3->a);$$=strdup($$);}  
