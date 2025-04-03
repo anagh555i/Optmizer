@@ -3,8 +3,18 @@ decl
     str s1,s2;
 enddecl
 
-a =b;
-b=1;
+while(a<b) do
+b=c;
+    while(c<b) do
+        a=b;
+        if(a<b) then continue; endif;
+        b=c;
+        break;
+    endwhile;
+    a=c;
+    continue;
+    c=b;
+endwhile;
 
 
 

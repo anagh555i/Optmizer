@@ -101,7 +101,7 @@ struct TokenAttr* Expr_TAC_Generate(TokenAttr* operand_1,char* op,TokenAttr* ope
     //generating 3-address code and storing it as an attribute of the result token
     TokenAttr* result_token = MakeTokenAttr(-1,NULL,result_type,NULL);
     result_token->Addr = strdup(result);
-    result_token->Code = malloc(100);
+    result_token->Code = malloc(CODE_SIZE);
     sprintf(result_token->Code,"%s = %s %s %s\n",result,operand_1->Addr,op,operand_2->Addr);
     return result_token;
 }
@@ -114,7 +114,7 @@ struct TokenAttr* Assign_TAC_Generate(TokenAttr* result,TokenAttr* RHS){
     //generating 3-address code and storing it as an attribute of the result token
     struct TokenAttr* result_token = MakeTokenAttr(-1,NULL,result->Type,NULL);
     result_token->Addr = strdup(result->Addr);
-    result_token->Code = malloc(100);
+    result_token->Code = malloc(CODE_SIZE);
     sprintf(result_token->Code,"%s = %s\n",result->Addr,RHS->Addr); 
     return result_token;
 }
@@ -148,20 +148,20 @@ struct TokenAttr* Boolean_TAC_Generate(TokenAttr* operand_1,char* op,TokenAttr* 
     if(isBinaryRelop(op)){  
     result_token->trueLabel = strdup(trueLabel);
     result_token->falseLabel = strdup(falseLabel);
-    result_token->Code = malloc(100);
+    result_token->Code = malloc(CODE_SIZE);
     sprintf(result_token->Code,"if %s %s %s goto %s\ngoto %s\n",operand_1->Addr,op,operand_2->Addr,trueLabel,falseLabel);
     }
     else{
         if(strcmp(op,"&&")==0){
             result_token->trueLabel = strdup(trueLabel);
             result_token->falseLabel = strdup(falseLabel);
-            result_token->Code = malloc(100);
+            result_token->Code = malloc(CODE_SIZE);
             sprintf(result_token->Code,"%s%s:\n%s",operand_1->Code,trueLabel,operand_2->Code);
         }
         else if(strcmp(op,"||")==0){
             result_token->trueLabel = strdup(trueLabel);
             result_token->falseLabel = strdup(falseLabel);
-            result_token->Code = malloc(100);
+            result_token->Code = malloc(CODE_SIZE);
             sprintf(result_token->Code,"%s%s:\n%s",operand_1->Code,falseLabel,operand_2->Code);
         }
     }
@@ -169,11 +169,44 @@ struct TokenAttr* Boolean_TAC_Generate(TokenAttr* operand_1,char* op,TokenAttr* 
     return result_token;
 }
 
+struct TokenAttr* While_TAC_Generate(TokenAttr* condition,char* Btrue,TokenAttr* while_body,char* Bfalse){
+    TokenAttr* result_token = MakeTokenAttr(-1,NULL,BOOLEAN_TYPE,NULL);
+    char* begin=newlabel();
+    char* breakReplace=malloc(10);
+    sprintf(breakReplace,"goto %s",Bfalse);
+    char* continueReplace=malloc(10);
+    sprintf(continueReplace,"goto %s",begin);
+    char* body=tokeniseReplaceString(while_body->Code,breakReplace,continueReplace);
+    result_token->Code=malloc(CODE_SIZE);
+    sprintf(result_token->Code,"%s:\n%s%s:\n%s%s\n%s:\n",begin,condition->Code,Btrue,body,continueReplace,Bfalse);
+    return result_token;
+}
 
+char* tokeniseReplaceString(char* code,char* breakReplace,char* continueReplace){
+    char* result=malloc(CODE_SIZE);
+    result[0]='\0';
+    char* token;
+    while(token=strtok(code,"\n")){
+        if(strcmp(token,"break")==0) {
+            strcat(result,breakReplace);
+            strcat(result,"\n");
+        }
+        else if(strcmp(token,"continue")==0) {
+            strcat(result,continueReplace);
+            strcat(result,"\n");
+        }
+        else {
+            strcat(result,token);
+            strcat(result,"\n");
+        }
+        code+=(strlen(token)+1);
+    }
+    return result;
+}
 
 struct TokenAttr* If_TAC_Generate(TokenAttr* condition,char* Btrue,TokenAttr* if_body,char* Bfalse){
     TokenAttr* result_token = MakeTokenAttr(-1,NULL,BOOLEAN_TYPE,NULL);
-    result_token->Code = malloc(100);
+    result_token->Code = malloc(CODE_SIZE);
     char* true_label = malloc(5);
     char* false_label = malloc(5);
     sprintf(false_label,"%s:\n",Bfalse);
@@ -184,7 +217,7 @@ struct TokenAttr* If_TAC_Generate(TokenAttr* condition,char* Btrue,TokenAttr* if
 
 struct TokenAttr* IfElse_TAC_Generate(TokenAttr* condition,TokenAttr* if_body,TokenAttr* else_Body,char* Btrue,char* Bfalse,char* exitLabel){
     TokenAttr* result_token = MakeTokenAttr(-1,NULL,BOOLEAN_TYPE,NULL);
-    result_token->Code = malloc(100);
+    result_token->Code = malloc(CODE_SIZE);
     char* true_label = malloc(5);
     char* false_label = malloc(5);
     char* exit_label = malloc(5);

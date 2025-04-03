@@ -222,7 +222,8 @@ enum yysymbol_kind_t
   YYSYMBOL_StmtList = 25,                  /* StmtList  */
   YYSYMBOL_Stmt = 26,                      /* Stmt  */
   YYSYMBOL_BExpr = 27,                     /* BExpr  */
-  YYSYMBOL_Expr = 28                       /* Expr  */
+  YYSYMBOL_Expr = 28,                      /* Expr  */
+  YYSYMBOL_El = 29                         /* El  */
 };
 typedef enum yysymbol_kind_t yysymbol_kind_t;
 
@@ -548,18 +549,18 @@ union yyalloc
 #endif /* !YYCOPY_NEEDED */
 
 /* YYFINAL -- State number of the termination state.  */
-#define YYFINAL  12
+#define YYFINAL  14
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   43
+#define YYLAST   33
 
 /* YYNTOKENS -- Number of terminals.  */
 #define YYNTOKENS  23
 /* YYNNTS -- Number of nonterminals.  */
-#define YYNNTS  6
+#define YYNNTS  7
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  20
+#define YYNRULES  21
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  39
+#define YYNSTATES  40
 
 /* YYMAXUTOK -- Last valid token kind.  */
 #define YYMAXUTOK   271
@@ -610,9 +611,9 @@ static const yytype_int8 yytranslate[] =
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int8 yyrline[] =
 {
-       0,    44,    44,    46,    47,    49,    50,    51,    52,    54,
-      55,    56,    57,    58,    59,    61,    62,    63,    64,    65,
-      66
+       0,    44,    44,    46,    47,    50,    51,    52,    53,    54,
+      56,    57,    58,    59,    60,    61,    63,    64,    65,    66,
+      68,    69
 };
 #endif
 
@@ -631,7 +632,7 @@ static const char *const yytname[] =
   "\"end of file\"", "error", "\"invalid token\"", "IF", "ELSE", "GOTO",
   "NEQ", "EQ", "LE", "GE", "GT", "LT", "begin", "end", "ID", "LABEL",
   "NUM", "'+'", "'-'", "'*'", "'/'", "'='", "':'", "$accept", "Program",
-  "StmtList", "Stmt", "BExpr", "Expr", YY_NULLPTR
+  "StmtList", "Stmt", "BExpr", "Expr", "El", YY_NULLPTR
 };
 
 static const char *
@@ -641,7 +642,7 @@ yysymbol_name (yysymbol_kind_t yysymbol)
 }
 #endif
 
-#define YYPACT_NINF (-16)
+#define YYPACT_NINF (-13)
 
 #define yypact_value_is_default(Yyn) \
   ((Yyn) == YYPACT_NINF)
@@ -655,10 +656,10 @@ yysymbol_name (yysymbol_kind_t yysymbol)
    STATE-NUM.  */
 static const yytype_int8 yypact[] =
 {
-      -3,    -4,     9,     3,    28,    -3,   -16,    -2,    24,   -16,
-     -13,   -16,   -16,   -16,    16,    17,    18,    19,    20,    21,
-      22,   -16,   -16,    -5,   -16,   -16,   -16,   -16,   -16,   -16,
-     -16,   -13,   -13,   -13,   -13,     2,     7,    23,   -16
+      -2,    15,   -10,    11,     2,    -2,   -13,   -13,   -13,     6,
+       7,   -13,    15,   -13,   -13,   -13,     5,    15,    15,    15,
+      15,    15,    15,   -13,     8,   -13,   -13,   -13,   -13,   -13,
+     -13,   -13,    15,    15,    15,    15,   -13,   -13,   -13,   -13
 };
 
 /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -666,22 +667,22 @@ static const yytype_int8 yypact[] =
    means the default is an error.  */
 static const yytype_int8 yydefact[] =
 {
-       0,     0,     0,     0,     0,     2,     4,     0,     0,     7,
-       0,     8,     1,     3,     0,     0,     0,     0,     0,     0,
-       0,    15,    16,     5,    11,    12,    10,     9,    13,    14,
-       6,     0,     0,     0,     0,    17,    18,    19,    20
+       0,     0,     0,     0,     0,     2,     4,    20,    21,     0,
+       0,     8,     0,     9,     1,     3,     0,     0,     0,     0,
+       0,     0,     0,     5,     6,     7,    12,    13,    11,    10,
+      14,    15,     0,     0,     0,     0,    16,    17,    18,    19
 };
 
 /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-     -16,   -16,   -16,    32,   -16,   -15
+     -13,   -13,   -13,    19,   -13,   -13,   -12
 };
 
 /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_int8 yydefgoto[] =
 {
-       0,     4,     5,     6,     8,    23
+       0,     4,     5,     6,     9,    23,    10
 };
 
 /* YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
@@ -689,46 +690,44 @@ static const yytype_int8 yydefgoto[] =
    number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_int8 yytable[] =
 {
-       1,    21,     2,    22,    14,    15,    16,    17,    18,    19,
-       7,     3,    31,    32,    33,    34,    35,    36,    37,    38,
-      32,    33,    34,     9,    10,    11,    33,    34,    12,    20,
-      24,    25,    26,    27,    28,    29,    30,    13,     0,     0,
-       0,     0,     0,    34
+      24,     1,    14,     2,    11,    26,    27,    28,    29,    30,
+      31,    16,     3,    17,    18,    19,    20,    21,    22,    25,
+      36,    37,    38,    39,    15,    32,    33,    34,    35,     7,
+       0,     8,    12,    13
 };
 
 static const yytype_int8 yycheck[] =
 {
-       3,    14,     5,    16,     6,     7,     8,     9,    10,    11,
-      14,    14,    17,    18,    19,    20,    31,    32,    33,    34,
-      18,    19,    20,    14,    21,    22,    19,    20,     0,     5,
-      14,    14,    14,    14,    14,    14,    14,     5,    -1,    -1,
-      -1,    -1,    -1,    20
+      12,     3,     0,     5,    14,    17,    18,    19,    20,    21,
+      22,     5,    14,     6,     7,     8,     9,    10,    11,    14,
+      32,    33,    34,    35,     5,    17,    18,    19,    20,    14,
+      -1,    16,    21,    22
 };
 
 /* YYSTOS[STATE-NUM] -- The symbol kind of the accessing symbol of
    state STATE-NUM.  */
 static const yytype_int8 yystos[] =
 {
-       0,     3,     5,    14,    24,    25,    26,    14,    27,    14,
-      21,    22,     0,    26,     6,     7,     8,     9,    10,    11,
-       5,    14,    16,    28,    14,    14,    14,    14,    14,    14,
-      14,    17,    18,    19,    20,    28,    28,    28,    28
+       0,     3,     5,    14,    24,    25,    26,    14,    16,    27,
+      29,    14,    21,    22,     0,    26,     5,     6,     7,     8,
+       9,    10,    11,    28,    29,    14,    29,    29,    29,    29,
+      29,    29,    17,    18,    19,    20,    29,    29,    29,    29
 };
 
 /* YYR1[RULE-NUM] -- Symbol kind of the left-hand side of rule RULE-NUM.  */
 static const yytype_int8 yyr1[] =
 {
-       0,    23,    24,    25,    25,    26,    26,    26,    26,    27,
-      27,    27,    27,    27,    27,    28,    28,    28,    28,    28,
-      28
+       0,    23,    24,    25,    25,    26,    26,    26,    26,    26,
+      27,    27,    27,    27,    27,    27,    28,    28,    28,    28,
+      29,    29
 };
 
 /* YYR2[RULE-NUM] -- Number of symbols on the right-hand side of rule RULE-NUM.  */
 static const yytype_int8 yyr2[] =
 {
-       0,     2,     1,     2,     1,     3,     4,     2,     2,     3,
-       3,     3,     3,     3,     3,     1,     1,     3,     3,     3,
-       3
+       0,     2,     1,     2,     1,     3,     3,     4,     2,     2,
+       3,     3,     3,     3,     3,     3,     3,     3,     3,     3,
+       1,     1
 };
 
 
@@ -1192,103 +1191,109 @@ yyreduce:
   switch (yyn)
     {
   case 5: /* Stmt: ID '=' Expr  */
-#line 49 "optimizer.y"
-                                    {handleAssignment((yyvsp[-2].String),(yyvsp[0].node));}
-#line 1198 "y.tab.c"
-    break;
-
-  case 6: /* Stmt: IF BExpr GOTO ID  */
 #line 50 "optimizer.y"
-                                    {freeMap();fprintf(outFile,"if %s goto %s\n",(yyvsp[-2].String),(yyvsp[0].String));}
-#line 1204 "y.tab.c"
+                                    {handleAssignment((yyvsp[-2].String),(yyvsp[0].node));}
+#line 1197 "y.tab.c"
     break;
 
-  case 7: /* Stmt: GOTO ID  */
+  case 6: /* Stmt: ID '=' El  */
 #line 51 "optimizer.y"
-                                    {freeMap();fprintf(outFile,"goto %s\n",(yyvsp[0].String));}
-#line 1210 "y.tab.c"
+                                    {removeMap((yyvsp[-2].String),hash);fprintf(outFile,"%s = %s\n",(yyvsp[-2].String),(yyvsp[0].node)->a);}
+#line 1203 "y.tab.c"
     break;
 
-  case 8: /* Stmt: ID ':'  */
+  case 7: /* Stmt: IF BExpr GOTO ID  */
 #line 52 "optimizer.y"
-                                    {freeMap();fprintf(outFile,"%s:\n",(yyvsp[-1].String));}
-#line 1216 "y.tab.c"
+                                    {freeMap();fprintf(outFile,"if %s goto %s\n",(yyvsp[-2].String),(yyvsp[0].String));}
+#line 1209 "y.tab.c"
     break;
 
-  case 9: /* BExpr: ID GE ID  */
+  case 8: /* Stmt: GOTO ID  */
+#line 53 "optimizer.y"
+                                    {freeMap();fprintf(outFile,"goto %s\n",(yyvsp[0].String));}
+#line 1215 "y.tab.c"
+    break;
+
+  case 9: /* Stmt: ID ':'  */
 #line 54 "optimizer.y"
-                                    {sprintf((yyval.String),"%s >= %s",(yyvsp[-2].String),(yyvsp[0].String));(yyval.String)=strdup((yyval.String));}
-#line 1222 "y.tab.c"
+                                    {freeMap();fprintf(outFile,"%s:\n",(yyvsp[-1].String));}
+#line 1221 "y.tab.c"
     break;
 
-  case 10: /* BExpr: ID LE ID  */
-#line 55 "optimizer.y"
-                                    {sprintf((yyval.String),"%s <= %s",(yyvsp[-2].String),(yyvsp[0].String));(yyval.String)=strdup((yyval.String));}
-#line 1228 "y.tab.c"
-    break;
-
-  case 11: /* BExpr: ID NEQ ID  */
+  case 10: /* BExpr: El GE El  */
 #line 56 "optimizer.y"
-                                    {sprintf((yyval.String),"%s != %s",(yyvsp[-2].String),(yyvsp[0].String));(yyval.String)=strdup((yyval.String));}
-#line 1234 "y.tab.c"
+                                    {sprintf((yyval.String),"%s >= %s",(yyvsp[-2].node)->a,(yyvsp[0].node)->a);(yyval.String)=strdup((yyval.String));}
+#line 1227 "y.tab.c"
     break;
 
-  case 12: /* BExpr: ID EQ ID  */
+  case 11: /* BExpr: El LE El  */
 #line 57 "optimizer.y"
-                                    {sprintf((yyval.String),"%s == %s",(yyvsp[-2].String),(yyvsp[0].String));(yyval.String)=strdup((yyval.String));}
-#line 1240 "y.tab.c"
+                                    {sprintf((yyval.String),"%s <= %s",(yyvsp[-2].node)->a,(yyvsp[0].node)->a);(yyval.String)=strdup((yyval.String));}
+#line 1233 "y.tab.c"
     break;
 
-  case 13: /* BExpr: ID GT ID  */
+  case 12: /* BExpr: El NEQ El  */
 #line 58 "optimizer.y"
-                                    {sprintf((yyval.String),"%s > %s",(yyvsp[-2].String),(yyvsp[0].String));(yyval.String)=strdup((yyval.String));}
-#line 1246 "y.tab.c"
+                                    {sprintf((yyval.String),"%s != %s",(yyvsp[-2].node)->a,(yyvsp[0].node)->a);(yyval.String)=strdup((yyval.String));}
+#line 1239 "y.tab.c"
     break;
 
-  case 14: /* BExpr: ID LT ID  */
+  case 13: /* BExpr: El EQ El  */
 #line 59 "optimizer.y"
-                                    {sprintf((yyval.String),"%s > %s",(yyvsp[-2].String),(yyvsp[0].String));(yyval.String)=strdup((yyval.String));}
-#line 1252 "y.tab.c"
+                                    {sprintf((yyval.String),"%s == %s",(yyvsp[-2].node)->a,(yyvsp[0].node)->a);(yyval.String)=strdup((yyval.String));}
+#line 1245 "y.tab.c"
     break;
 
-  case 15: /* Expr: ID  */
+  case 14: /* BExpr: El GT El  */
+#line 60 "optimizer.y"
+                                    {sprintf((yyval.String),"%s > %s",(yyvsp[-2].node)->a,(yyvsp[0].node)->a);(yyval.String)=strdup((yyval.String));}
+#line 1251 "y.tab.c"
+    break;
+
+  case 15: /* BExpr: El LT El  */
 #line 61 "optimizer.y"
-                                {(yyval.node)=makeNode((yyvsp[0].String),' ',"");}
-#line 1258 "y.tab.c"
+                                    {sprintf((yyval.String),"%s > %s",(yyvsp[-2].node)->a,(yyvsp[0].node)->a);(yyval.String)=strdup((yyval.String));}
+#line 1257 "y.tab.c"
     break;
 
-  case 16: /* Expr: NUM  */
-#line 62 "optimizer.y"
-                                {(yyval.node)=makeNode((yyvsp[0].String),' ',"");}
-#line 1264 "y.tab.c"
-    break;
-
-  case 17: /* Expr: Expr '+' Expr  */
+  case 16: /* Expr: El '+' El  */
 #line 63 "optimizer.y"
                                 {(yyval.node)=makeNode((yyvsp[-2].node)->a,'+',(yyvsp[0].node)->a);}
-#line 1270 "y.tab.c"
+#line 1263 "y.tab.c"
     break;
 
-  case 18: /* Expr: Expr '-' Expr  */
+  case 17: /* Expr: El '-' El  */
 #line 64 "optimizer.y"
                                 {(yyval.node)=makeNode((yyvsp[-2].node)->a,'-',(yyvsp[0].node)->a);}
-#line 1276 "y.tab.c"
+#line 1269 "y.tab.c"
     break;
 
-  case 19: /* Expr: Expr '*' Expr  */
+  case 18: /* Expr: El '*' El  */
 #line 65 "optimizer.y"
                                 {(yyval.node)=makeNode((yyvsp[-2].node)->a,'*',(yyvsp[0].node)->a);}
-#line 1282 "y.tab.c"
+#line 1275 "y.tab.c"
     break;
 
-  case 20: /* Expr: Expr '/' Expr  */
+  case 19: /* Expr: El '/' El  */
 #line 66 "optimizer.y"
                                 {(yyval.node)=makeNode((yyvsp[-2].node)->a,'/',(yyvsp[0].node)->a);}
-#line 1288 "y.tab.c"
+#line 1281 "y.tab.c"
+    break;
+
+  case 20: /* El: ID  */
+#line 68 "optimizer.y"
+                                {(yyval.node)=makeNode((yyvsp[0].String),' ',"");}
+#line 1287 "y.tab.c"
+    break;
+
+  case 21: /* El: NUM  */
+#line 69 "optimizer.y"
+                                {(yyval.node)=makeNode((yyvsp[0].String),' ',"");}
+#line 1293 "y.tab.c"
     break;
 
 
-#line 1292 "y.tab.c"
+#line 1297 "y.tab.c"
 
       default: break;
     }
@@ -1481,7 +1486,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 69 "optimizer.y"
+#line 72 "optimizer.y"
 
 
 void yyerror(char const *s){
@@ -1495,13 +1500,14 @@ int main(){
     hash=createMap();
     yyin=fp;
     yyparse();
+    printf("Optimization completed\n");
     return 0;
 }
 
 void handleAssignment(char* a, mapNode* expr){
     char* res=lookUpMap(expr->a,expr->op,expr->b);
-    if(strcmp(res,"NULL")!=0) fprintf(outFile,"%s=%s\n",a,res);
-    else fprintf(outFile,"%s=%s %c %s\n",a,expr->a,expr->op,expr->b);
+    if(strcmp(res,"NULL")!=0) fprintf(outFile,"%s = %s\n",a,res);
+    else fprintf(outFile,"%s = %s %c %s\n",a,expr->a,expr->op,expr->b);
     removeMap(a,hash);
     insertMap(expr->a,expr->op,expr->b,a);
 }

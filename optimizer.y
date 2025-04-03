@@ -20,8 +20,8 @@
  struct mapNode* node;
 }
 
-%token IF ELSE GOTO NEQ EQ LE GE GT LT begin end
-%token <String> ID LABEL NUM
+%token IF GOTO NEQ EQ LE GE GT LT 
+%token <String> ID NUM
 
 %left LT
 %left GT
@@ -35,7 +35,7 @@
 %left '*'
 %left '/'
 
-%type<node> Expr;
+%type<node> Expr El;
 %type<String> BExpr;
 
 %start Program
@@ -46,24 +46,27 @@ Program     :   StmtList
 StmtList    :   StmtList Stmt 
             |   Stmt 
             ;
+            ;
 Stmt        :   ID '=' Expr         {handleAssignment($1,$3);}
+            |   ID '=' El           {removeMap($1,hash);fprintf(outFile,"%s = %s\n",$1,$3->a);}
             |   IF BExpr GOTO ID    {freeMap();fprintf(outFile,"if %s goto %s\n",$2,$4);}
             |   GOTO ID             {freeMap();fprintf(outFile,"goto %s\n",$2);}
             |   ID ':'              {freeMap();fprintf(outFile,"%s:\n",$1);}
             ;
-BExpr       :   ID GE ID            {sprintf($$,"%s >= %s",$1,$3);$$=strdup($$);}  
-            |   ID LE ID            {sprintf($$,"%s <= %s",$1,$3);$$=strdup($$);}  
-            |   ID NEQ ID           {sprintf($$,"%s != %s",$1,$3);$$=strdup($$);}  
-            |   ID EQ ID            {sprintf($$,"%s == %s",$1,$3);$$=strdup($$);}  
-            |   ID GT ID            {sprintf($$,"%s > %s",$1,$3);$$=strdup($$);}  
-            |   ID LT ID            {sprintf($$,"%s > %s",$1,$3);$$=strdup($$);}  
+BExpr       :   El GE El            {sprintf($$,"%s >= %s",$1->a,$3->a);$$=strdup($$);}  
+            |   El LE El            {sprintf($$,"%s <= %s",$1->a,$3->a);$$=strdup($$);}  
+            |   El NEQ El           {sprintf($$,"%s != %s",$1->a,$3->a);$$=strdup($$);}  
+            |   El EQ El            {sprintf($$,"%s == %s",$1->a,$3->a);$$=strdup($$);}  
+            |   El GT El            {sprintf($$,"%s > %s",$1->a,$3->a);$$=strdup($$);}  
+            |   El LT El            {sprintf($$,"%s > %s",$1->a,$3->a);$$=strdup($$);}  
             ;
-Expr        :   ID              {$$=makeNode($1,' ',"");}
+Expr        :   El '+' El       {$$=makeNode($1->a,'+',$3->a);}
+            |   El '-' El       {$$=makeNode($1->a,'-',$3->a);}
+            |   El '*' El       {$$=makeNode($1->a,'*',$3->a);}
+            |   El '/' El       {$$=makeNode($1->a,'/',$3->a);}
+            ;
+El          :   ID              {$$=makeNode($1,' ',"");}
             |   NUM             {$$=makeNode($1,' ',"");}
-            |   Expr '+' Expr   {$$=makeNode($1->a,'+',$3->a);}
-            |   Expr '-' Expr   {$$=makeNode($1->a,'-',$3->a);}
-            |   Expr '*' Expr   {$$=makeNode($1->a,'*',$3->a);}
-            |   Expr '/' Expr   {$$=makeNode($1->a,'/',$3->a);}
             ;
 
 %%
@@ -79,13 +82,14 @@ int main(){
     hash=createMap();
     yyin=fp;
     yyparse();
+    printf("Optimization completed\n");
     return 0;
 }
 
 void handleAssignment(char* a, mapNode* expr){
     char* res=lookUpMap(expr->a,expr->op,expr->b);
-    if(strcmp(res,"NULL")!=0) fprintf(outFile,"%s=%s\n",a,res);
-    else fprintf(outFile,"%s=%s %c %s\n",a,expr->a,expr->op,expr->b);
+    if(strcmp(res,"NULL")!=0) fprintf(outFile,"%s = %s\n",a,res);
+    else fprintf(outFile,"%s = %s %c %s\n",a,expr->a,expr->op,expr->b);
     removeMap(a,hash);
     insertMap(expr->a,expr->op,expr->b,a);
 }

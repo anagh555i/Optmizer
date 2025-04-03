@@ -462,9 +462,17 @@ char *yytext;
 #line 1 "optimizer.l"
 #line 2 "optimizer.l"
     #include "y.tab.h"  
-    #include<string.h>  
-#line 467 "lex.yy.c"
-#line 468 "lex.yy.c"
+    #include<string.h>
+    #include<stdbool.h>
+    
+    bool debug=false;
+
+    void print(char* txt){
+        if(debug)
+        printf("Found %s\n",txt);
+    }
+#line 475 "lex.yy.c"
+#line 476 "lex.yy.c"
 
 #define INITIAL 0
 
@@ -681,10 +689,10 @@ YY_DECL
 		}
 
 	{
-#line 6 "optimizer.l"
+#line 14 "optimizer.l"
 
 
-#line 688 "lex.yy.c"
+#line 696 "lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -743,95 +751,95 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 8 "optimizer.l"
-{printf("Found %s\n",yytext); return IF;}
+#line 16 "optimizer.l"
+{print(yytext); return IF;}
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 9 "optimizer.l"
-{printf("Found %s\n",yytext); return begin;}
+#line 17 "optimizer.l"
+{print(yytext); return begin;}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 10 "optimizer.l"
-{printf("Found %s\n",yytext); return end;}
+#line 18 "optimizer.l"
+{print(yytext); return end;}
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 11 "optimizer.l"
-{printf("Found %s\n",yytext); return ELSE;}
+#line 19 "optimizer.l"
+{print(yytext); return ELSE;}
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 12 "optimizer.l"
-{printf("Found %s\n",yytext); return GOTO;}
+#line 20 "optimizer.l"
+{print(yytext); return GOTO;}
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 13 "optimizer.l"
-{ printf("Found %s\n",yytext); return NEQ;}
+#line 21 "optimizer.l"
+{ print(yytext); return NEQ;}
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 14 "optimizer.l"
-{ printf("Found %s\n",yytext); return EQ;}
+#line 22 "optimizer.l"
+{ print(yytext); return EQ;}
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 15 "optimizer.l"
-{ printf("Found %s\n",yytext); return LE;}
+#line 23 "optimizer.l"
+{ print(yytext); return LE;}
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 16 "optimizer.l"
-{ printf("Found %s\n",yytext); return GE;}
+#line 24 "optimizer.l"
+{ print(yytext); return GE;}
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 17 "optimizer.l"
-{ printf("Found %s\n",yytext); return GT;}
+#line 25 "optimizer.l"
+{ print(yytext); return GT;}
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 18 "optimizer.l"
-{ printf("Found %s\n",yytext); return LT;}
+#line 26 "optimizer.l"
+{ print(yytext); return LT;}
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 20 "optimizer.l"
-{yylval.Int=atoi(yytext); return NUM;}
+#line 28 "optimizer.l"
+{print(yytext); yylval.String=strdup(yytext); return NUM;}
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 21 "optimizer.l"
-{printf("found %s\n",yytext);return *yytext;}
+#line 29 "optimizer.l"
+{print(yytext);return *yytext;}
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 22 "optimizer.l"
+#line 30 "optimizer.l"
 {
-                            printf("found %s %d\n",yytext,yyleng);
+                            print(yytext);
                             yylval.String=strdup(yytext); return ID;
                         }
 	YY_BREAK
 case 15:
 /* rule 15 can match eol */
 YY_RULE_SETUP
-#line 26 "optimizer.l"
+#line 34 "optimizer.l"
 {;}
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 27 "optimizer.l"
+#line 35 "optimizer.l"
 {printf("Unexpected Character\n");
                     exit(0);}
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 30 "optimizer.l"
+#line 38 "optimizer.l"
 ECHO;
 	YY_BREAK
-#line 835 "lex.yy.c"
+#line 843 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1836,7 +1844,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 30 "optimizer.l"
+#line 38 "optimizer.l"
 
 
 int yywrap(void){

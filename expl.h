@@ -2,6 +2,8 @@
 #define BOOLEAN_TYPE 10
 #define STRING_TYPE 17
 
+#define CODE_SIZE 200
+
 
 
 typedef struct Gsymbol
@@ -48,3 +50,5 @@ struct TokenAttr* If_TAC_Generate(TokenAttr* condition,char* Btrue,TokenAttr* if
 int isBinaryRelop(char* op);
 int isArithOp(char* op);
 void CleanupToken(TokenAttr* token);
+struct TokenAttr* While_TAC_Generate(TokenAttr* condition,char* Btrue,TokenAttr* while_body,char* Bfalse);
+char* tokeniseReplaceString(char* c,char* breakReplace,char* continueReplace);

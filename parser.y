@@ -62,9 +62,9 @@ Slist : Slist Stmt {
 
 Stmt : AsgStmt {$$=$1;}
 |Ifstmt {$$=$1;}
-|WhileStmt {}
-|BreakStmt {}
-|ContinueStmt {}
+|WhileStmt {$$=$1;}
+|BreakStmt {$$=$1;}
+|ContinueStmt {$$=$1;}
 ;
 
 // Three Address Code Generation Pending.....
@@ -82,9 +82,17 @@ AsgStmt : Identifier '=' expr ';' {
     $$= result_token;
 };
 
-BreakStmt : BREAK ';' {}
+BreakStmt : BREAK ';' {
+  struct TokenAttr* result_token = MakeTokenAttr(-1,NULL,BOOLEAN_TYPE,NULL);
+  result_token->Code=strdup("break\n");
+  $$=result_token;
+}
 
-ContinueStmt : CONTINUE ';' {}
+ContinueStmt : CONTINUE ';' {
+  struct TokenAttr* result_token = MakeTokenAttr(-1,NULL,BOOLEAN_TYPE,NULL);
+  result_token->Code=strdup("continue\n");
+  $$=result_token;
+}
 
 Ifstmt : IF '(' expr ')' THEN Slist ELSE Slist ENDIF ';' {
     char* BooleanTrue = $3->trueLabel;
@@ -101,7 +109,9 @@ Ifstmt : IF '(' expr ')' THEN Slist ELSE Slist ENDIF ';' {
   }
 ;
 
-WhileStmt : WHILE '(' expr ')' DO Slist ENDWHILE ';' {}
+WhileStmt : WHILE '(' expr ')' DO Slist ENDWHILE ';' {
+  $$=While_TAC_Generate($3,$3->trueLabel,$6,$3->falseLabel);
+}
 
 expr : expr PLUS expr  {
     char* addr = newTemp(); 
@@ -224,3 +234,4 @@ int main(void) {
 
  return 0;
 }
+//No Syntax Error
